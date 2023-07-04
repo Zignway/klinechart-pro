@@ -16,7 +16,7 @@ import { Component, createSignal } from 'solid-js'
 
 import { utils } from 'klinecharts'
 
-import { Modal, Input } from '../../component'
+import { Modal, Input } from '../../components'
 
 import i18n from '../../i18n'
 

@@ -23,7 +23,7 @@ export function translateTimezone (timezone: string, locale: string): string {
     case 'America/Juneau': return i18n('juneau', locale)
     case 'America/Los_Angeles': return i18n('los_angeles', locale)
     case 'America/Chicago': return i18n('chicago', locale)
-    case'America/Toronto': return i18n('toronto', locale)
+    case 'America/Toronto': return i18n('toronto', locale)
     case 'America/Sao_Paulo': return i18n('sao_paulo', locale)
     case 'Europe/London': return i18n('london', locale)
     case 'Europe/Berlin': return i18n('berlin', locale)

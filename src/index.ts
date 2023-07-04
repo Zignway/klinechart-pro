@@ -12,27 +12,29 @@
  * limitations under the License.
  */
 
-import { registerOverlay } from 'klinecharts'
-
-import overlays from './extension'
-
-import DefaultDatafeed from './DefaultDatafeed'
-import KLineChartPro from './KLineChartPro'
-
-import { load } from './i18n'
-
-import { Datafeed, SymbolInfo, Period, DatafeedSubscribeCallback, ChartProOptions, ChartPro } from './types'
-
 import './index.less'
+import './index.css'
+
+import {
+  ChartPro,
+  ChartProOptions,
+  DatafeedSubscribeCallback,
+  Period,
+  SymbolInfo
+} from './types'
+
+import KLineChartPro from './KLineChartPro'
+import { load } from './i18n'
+import overlays from './extension'
+import { registerOverlay } from 'klinecharts'
 
 overlays.forEach(o => { registerOverlay(o) })
 
 export {
-  DefaultDatafeed,
   KLineChartPro,
   load as loadLocales
 }
 
 export type {
-  Datafeed, SymbolInfo, Period, DatafeedSubscribeCallback, ChartProOptions, ChartPro
+  SymbolInfo, Period, DatafeedSubscribeCallback, ChartProOptions, ChartPro
 }

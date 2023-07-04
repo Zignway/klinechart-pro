@@ -14,7 +14,7 @@
 
 import { Component } from 'solid-js'
 
-import { Modal } from '../../component'
+import { Modal } from '../../components';
 
 import i18n from '../../i18n'
 

@@ -12,15 +12,17 @@
  * limitations under the License.
  */
 
-import zhCN from './zh-CN.json'
 import enUS from './en-US.json'
+import thTH from './th-TH.json'
+import zhCN from './zh-CN.json'
 
 const locales = {
   'zh-CN': zhCN,
-  'en-US': enUS
+  'en-US': enUS,
+  'th-TH': thTH
 }
 
-export function load (key: string, ls: any) {
+export function load(key: string, ls: any) {
   // @ts-expect-error
   locales[key] = ls
 }

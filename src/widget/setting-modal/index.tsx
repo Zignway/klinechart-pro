@@ -17,8 +17,8 @@ import { Styles, utils, DeepPartial } from 'klinecharts'
 
 import lodashSet from 'lodash/set'
 
-import { Modal, Select, Switch } from '../../component'
-import type { SelectDataSourceItem } from '../../component'
+import { Modal, Select, Switch } from '../../components'
+import type { SelectDataSourceItem } from '../../components'
 
 import i18n from '../../i18n'
 import { getOptions } from './data'

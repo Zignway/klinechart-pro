@@ -14,19 +14,10 @@
 ### Using npm or yarn
 ```bash
 # using npm
-npm install @klinecharts/pro --save
+npm install @numlemon/klinecharts-pro --save
 
 # using yarn
-yarn add @klinecharts/pro
-```
-
-### Using unpkg or jsDelivr
-```html
-<!-- using unpkg -->
-<script src="https://unpkg.com/@klinecharts/pro/dist/klinecharts-pro.umd.js"></script>
-
-<!-- using jsdelivr -->
-<script src="https://cdn.jsdelivr.net/npm/@klinecharts/pro/dist/klinecharts-pro.umd.js"></script>
+yarn add @numlemon/klinecharts-pro
 ```
 
 ## Docs
