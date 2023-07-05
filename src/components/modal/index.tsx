@@ -32,7 +32,7 @@ const Modal: ParentComponent<ModalProps> = (props) => {
       <div
         onClick={props.onClose}
         class='fixed w-screen inset-0 z-40 bg-black/40 transition-all duration-100' />
-      <div class='fixed right-0 z-50 scale-100 gap-4 bg-[#191925] p-6 opacity-100 shadow-lg overflow-y-auto w-[300px] h-full animate-in slide-in-from-right duration-300'>
+      <div class='fixed right-0 z-50 scale-100 gap-4 klinecharts-pro-bg-background p-6 opacity-100 shadow-lg overflow-y-auto w-[300px] h-full animate-in slide-in-from-right duration-300'>
         <Label class='text-white text-[18px]'>{props.title}</Label>
         <div class='overflow-y-auto'>
           {props.children}

@@ -54,7 +54,7 @@ const SheetOverlay: Component<SheetPrimitive.DialogOverlayProps> = (props) => {
 };
 
 const sheetVariants = cva(
-  'fixed z-50 scale-100 gap-4 bg-[#191925] p-6 opacity-100 shadow-lg overflow-y-auto',
+  'fixed z-50 scale-100 gap-4 klinecharts-pro-bg-background p-6 opacity-100 shadow-lg overflow-y-auto',
   {
     variants: {
       position: {
