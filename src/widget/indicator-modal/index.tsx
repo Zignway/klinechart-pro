@@ -12,10 +12,12 @@
  * limitations under the License.
  */
 
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../components/ui/accordion';
+
+import { Checkbox } from '../../components/ui/checkbox';
 import { Component } from 'solid-js';
-
-import { Modal, List, Checkbox } from '../../components';
-
+import { Label } from '../../components/ui/label';
+import { Modal } from '../../components';
 import i18n from '../../i18n';
 
 type OnIndicatorChange = (params: {
@@ -37,81 +39,109 @@ const IndicatorModal: Component<IndicatorModalProps> = (props) => {
   return (
     <Modal
       title={i18n('indicator', props.locale)}
-      width={400}
       onClose={props.onClose}
     >
-      <List class="klinecharts-pro-indicator-modal-list">
-        <li class="title">{i18n('main_indicator', props.locale)}</li>
-        {['MA', 'EMA', 'SMA', 'BOLL', 'SAR', 'BBI'].map((name) => {
-          const checked = props.mainIndicators.includes(name);
-          return (
-            <li
-              class="row"
-              onClick={(_) => {
-                props.onMainIndicatorChange({
-                  name,
-                  paneId: 'candle_pane',
-                  added: !checked,
-                });
-              }}
-            >
-              <Checkbox
-                checked={checked}
-                label={i18n(name.toLowerCase(), props.locale)}
-              />
-            </li>
-          );
-        })}
-        <li class="title">{i18n('sub_indicator', props.locale)}</li>
-        {[
-          'MA',
-          'EMA',
-          'VOL',
-          'MACD',
-          'BOLL',
-          'KDJ',
-          'RSI',
-          'BIAS',
-          'BRAR',
-          'CCI',
-          'DMI',
-          'CR',
-          'PSY',
-          'DMA',
-          'TRIX',
-          'OBV',
-          'VR',
-          'WR',
-          'MTM',
-          'EMV',
-          'SAR',
-          'SMA',
-          'ROC',
-          'PVT',
-          'BBI',
-          'AO',
-        ].map((name) => {
-          const checked = name in props.subIndicators;
-          return (
-            <li
-              class="row"
-              onClick={(_) => {
-                props.onSubIndicatorChange({
-                  name,
-                  // @ts-expect-error
-                  paneId: props.subIndicators[name] ?? '',
-                  added: !checked,
-                });
-              }}
-            >
-              <Checkbox
-                checked={checked}
-                label={i18n(name.toLowerCase(), props.locale)}
-              />
-            </li>
-          );
-        })}
-      </List>
+      <div class="grid gap-4 py-4">
+        <Accordion
+          multiple={true}
+          defaultValue={['main_indicator', 'sub_indicator']}
+          class="w-full"
+        >
+          <AccordionItem value="main_indicator">
+            <AccordionTrigger>
+              {i18n('main_indicator', props.locale)}
+            </AccordionTrigger>
+            <AccordionContent>
+              {['MA', 'EMA', 'SMA', 'BOLL', 'SAR', 'BBI'].map((name) => {
+                const checked = props.mainIndicators.includes(name);
+                return (
+                  <div
+                    onClick={(_) => {
+                      props.onMainIndicatorChange({
+                        name,
+                        paneId: 'candle_pane',
+                        added: !checked
+                      });
+                    }}
+                    class="items-top flex space-x-2 mb-4 hover:text-white"
+                  >
+                    <Checkbox id={`main-${name}`} checked={checked} />
+                    <div class="grid gap-1.5 leading-none">
+                      <Label
+                        for={`main-${name}`}
+                        class="hover:cursor-pointer"
+                      >
+                        {i18n(name.toLowerCase(), props.locale)}
+                      </Label>
+                    </div>
+                  </div>
+                );
+              })}
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="sub_indicator">
+            <AccordionTrigger>
+              {i18n('sub_indicator', props.locale)}
+            </AccordionTrigger>
+            <AccordionContent>
+              {[
+                'MA',
+                'EMA',
+                'VOL',
+                'MACD',
+                'BOLL',
+                'KDJ',
+                'RSI',
+                'BIAS',
+                'BRAR',
+                'CCI',
+                'DMI',
+                'CR',
+                'PSY',
+                'DMA',
+                'TRIX',
+                'OBV',
+                'VR',
+                'WR',
+                'MTM',
+                'EMV',
+                'SAR',
+                'SMA',
+                'ROC',
+                'PVT',
+                'BBI',
+                'AO'
+              ].map((name) => {
+                const checked = name in props.subIndicators;
+                return (
+                  <div
+                    onClick={(_) => {
+                      props.onSubIndicatorChange({
+                        name,
+                        // @ts-expect-error
+                        paneId: props.subIndicators[name] ?? '',
+                        added: !checked
+                      });
+                    }}
+                    class="items-top flex space-x-2 mb-4 hover:text-white"
+                  >
+                    <Checkbox id={`main-${name}`} checked={checked} />
+                    <div class="grid gap-1.5 leading-none">
+                      <Label
+                        for={`main-${name}`}
+                        class="hover:cursor-pointer"
+                      >
+                        {i18n(name.toLowerCase(), props.locale)}
+                      </Label>
+                    </div>
+                  </div>
+                );
+              })}
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </div>
+
     </Modal>
   );
 };

@@ -51,9 +51,6 @@ import { Loading, SelectDataSourceItem } from './components';
 import lodashClone from 'lodash/cloneDeep';
 import lodashSet from 'lodash/set';
 import { translateTimezone } from './widget/timezone-modal/data';
-import IndicatorSheet from './widget/indicator-sheet';
-import TimezoneSheet from './widget/timezone-sheet';
-import SettingSheet from './widget/setting-sheet';
 
 export interface ChartProComponentProps
   extends Required<Omit<ChartProOptions, 'container'>> {
@@ -227,8 +224,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
         to = to - dif * 60 * 60 * 24;
         const newDate = new Date(to);
         to = new Date(
-          `${newDate.getFullYear()}-${
-            newDate.getMonth() + 1
+          `${newDate.getFullYear()}-${newDate.getMonth() + 1
           }-${newDate.getDate()}`
         ).getTime();
         from = count * period.multiplier * 7 * 24 * 60 * 60 * 1000;
@@ -576,56 +572,63 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
   return (
     <>
       <i class="icon-close klinecharts-pro-load-icon" />
-      <IndicatorSheet
-        locale={props.locale}
-        mainIndicators={mainIndicators()}
-        subIndicators={subIndicators()}
-        isOpen={indicatorModalVisible()}
-        setIsOpen={setIndicatorModalVisible}
-        onMainIndicatorChange={(data) => {
-          const newMainIndicators = [...mainIndicators()];
-          if (data.added) {
-            createIndicator(widget, data.name, true, { id: 'candle_pane' });
-            newMainIndicators.push(data.name);
-          } else {
-            widget?.removeIndicator('candle_pane', data.name);
-            newMainIndicators.splice(newMainIndicators.indexOf(data.name), 1);
-          }
-          setMainIndicators(newMainIndicators);
-        }}
-        onSubIndicatorChange={(data) => {
-          const newSubIndicators = { ...subIndicators() };
-          if (data.added) {
-            const paneId = createIndicator(widget, data.name);
-            if (paneId) {
-              // @ts-expect-error
-              newSubIndicators[data.name] = paneId;
+      <Show when={indicatorModalVisible()}>
+        <IndicatorModal
+          onClose={() => { setIndicatorModalVisible(false) }}
+          locale={props.locale}
+          mainIndicators={mainIndicators()}
+          subIndicators={subIndicators()}
+          // isOpen={indicatorModalVisible()}
+          // setIsOpen={setIndicatorModalVisible}
+          onMainIndicatorChange={(data) => {
+            const newMainIndicators = [...mainIndicators()];
+            if (data.added) {
+              createIndicator(widget, data.name, true, { id: 'candle_pane' });
+              newMainIndicators.push(data.name);
+            } else {
+              widget?.removeIndicator('candle_pane', data.name);
+              newMainIndicators.splice(newMainIndicators.indexOf(data.name), 1);
             }
-          } else {
-            if (data.paneId) {
-              widget?.removeIndicator(data.paneId, data.name);
-              // @ts-expect-error
-              delete newSubIndicators[data.name];
+            setMainIndicators(newMainIndicators);
+          }}
+          onSubIndicatorChange={(data) => {
+            const newSubIndicators = { ...subIndicators() };
+            if (data.added) {
+              const paneId = createIndicator(widget, data.name);
+              if (paneId) {
+                // @ts-expect-error
+                newSubIndicators[data.name] = paneId;
+              }
+            } else {
+              if (data.paneId) {
+                widget?.removeIndicator(data.paneId, data.name);
+                // @ts-expect-error
+                delete newSubIndicators[data.name];
+              }
             }
-          }
-          setSubIndicators(newSubIndicators);
-        }}
-      />
-      <TimezoneSheet
-        locale={props.locale}
-        timezone={timezone()}
-        isOpen={timezoneModalVisible()}
-        setIsOpen={() => {
-          setTimezoneModalVisible(false);
-        }}
-        onConfirm={setTimezone}
-      />
+            setSubIndicators(newSubIndicators);
+          }}
+        />
+      </Show>
+      <Show when={timezoneModalVisible()}>
+        <TimezoneModal
+          locale={props.locale}
+          timezone={timezone()}
+          onClose={() => { setTimezoneModalVisible(false) }}
+          // isOpen={timezoneModalVisible()}
+          // setIsOpen={() => {
+          //   setTimezoneModalVisible(false);
+          // }}
+          onConfirm={setTimezone}
+        />
+      </Show>
       <Show when={settingModalVisible()}>
-        <SettingSheet
+        <SettingModal
           locale={props.locale}
           currentStyles={utils.clone(widget!.getStyles())}
-          isOpen={settingModalVisible()}
-          setIsOpen={setSettingModalVisible}
+          // isOpen={settingModalVisible()}
+          // setIsOpen={setSettingModalVisible}
+          onClose={() => { setSettingModalVisible(false) }}
           onChange={(style) => {
             widget?.setStyles(style);
           }}
@@ -643,30 +646,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
           }}
         />
       </Show>
-      {/* <Show when={settingModalVisible()}>
-        <SettingModal
-          locale={props.locale}
-          currentStyles={utils.clone(widget!.getStyles())}
-          onClose={() => {
-            setSettingModalVisible(false);
-          }}
-          onChange={(style) => {
-            widget?.setStyles(style);
-          }}
-          onRestoreDefault={(options: SelectDataSourceItem[]) => {
-            const style = {};
-            options.forEach((option) => {
-              const key = option.key;
-              lodashSet(
-                style,
-                key,
-                utils.formatValue(widgetDefaultStyles(), key)
-              );
-            });
-            widget?.setStyles(style);
-          }}
-        />
-      </Show> */}
+
       <Show when={screenshotUrl().length > 0}>
         <ScreenshotModal
           locale={props.locale}
@@ -709,7 +689,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
               setDrawingBarVisible(!drawingBarVisible())
             );
             widget?.resize();
-          } catch (e) {}
+          } catch (e) { }
         }}
         onPeriodChange={setPeriod}
         onIndicatorClick={() => {

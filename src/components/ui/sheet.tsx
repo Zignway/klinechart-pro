@@ -27,7 +27,7 @@ const portalVariants = cva('fixed inset-0 z-50 flex', {
 
 interface SheetPortalProps
   extends SheetPrimitive.DialogPortalProps,
-    VariantProps<typeof portalVariants> {}
+  VariantProps<typeof portalVariants> { }
 
 const SheetPortal: Component<SheetPortalProps> = (props) => {
   const [, rest] = splitProps(props, ['position', 'children']);
@@ -143,7 +143,7 @@ const sheetVariants = cva(
 
 export interface DialogContentProps
   extends SheetPrimitive.DialogContentProps,
-    VariantProps<typeof sheetVariants> {}
+  VariantProps<typeof sheetVariants> { }
 
 const SheetContent: Component<DialogContentProps> = (props) => {
   const [, rest] = splitProps(props, ['position', 'size', 'class', 'children']);

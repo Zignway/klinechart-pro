@@ -12,16 +12,17 @@
  * limitations under the License.
  */
 
-import { Component, createEffect, For, createSignal } from 'solid-js'
-import { Styles, utils, DeepPartial } from 'klinecharts'
+import { Component, For, createEffect, createSignal } from 'solid-js'
+import { DeepPartial, Styles, utils } from 'klinecharts'
+import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group'
 
-import lodashSet from 'lodash/set'
-
-import { Modal, Select, Switch } from '../../components'
+import { Label } from '../../components/ui/label'
+import { Modal } from '../../components'
 import type { SelectDataSourceItem } from '../../components'
-
-import i18n from '../../i18n'
+import { Switch } from '../../components/ui/switch'
 import { getOptions } from './data'
+import i18n from '../../i18n'
+import lodashSet from 'lodash/set'
 
 export interface SettingModalProps {
   locale: string
@@ -53,60 +54,56 @@ const SettingModal: Component<SettingModalProps> = props => {
     <Modal
       title={i18n('setting', props.locale)}
       width={560}
-      buttons={[
-        {
-          children: i18n('restore_default', props.locale),
-          onClick: () => {
-            props.onRestoreDefault(options())
-            props.onClose()
-          }
-        }
-      ]}
+      // buttons={[
+      //   {
+      //     children: i18n('restore_default', props.locale),
+      //     onClick: () => {
+      //       props.onRestoreDefault(options())
+      //       props.onClose()
+      //     }
+      //   }
+      // ]}
       onClose={props.onClose}>
-      <div
-        class="klinecharts-pro-setting-modal-content">
-        <For each={options()}>
-          {
-            option => {
-              let component
-              const value = utils.formatValue(styles(), option.key)
-              switch (option.component) {
-                case 'select': {
-                  component = (
-                    <Select
-                      style={{ width: '120px' }}
-                      value={i18n(value as string, props.locale)}
-                      dataSource={option.dataSource}
-                      onSelected={(data) => {
-                        const newValue = (data as SelectDataSourceItem).key
-                        update(option, newValue)
-                      }}/>
-                  )
-                  break
-                }
-                case 'switch': {
-                  const open = !!value
-                  component = (
-                    <Switch
-                      open={open}
-                      onChange={() => {
-                        const newValue = !open
-                        update(option, newValue)
-                      }}/>
-                  )
-                  break
-                }
-              }
-              return (
-                <>
-                  <span>{option.text}</span>
-                  {component}
-                </>
-              )
-            }
+      <div class="grid gap-4 py-4">
+        {options().map((item) => {
+          const value = utils.formatValue(styles(), item.key);
+          if (item.component == 'switch') {
+            const open = !!value;
+            return (
+              <Switch
+                label={item.text}
+                onChange={() => {
+                  const newValue = !open;
+                  update(item, newValue);
+                }}
+                checked={open}
+              />
+            );
+          } else if (item.component == 'select') {
+            return (
+              <>
+                <Label class="text-white text-[14px]">{item.text}</Label>
+                <RadioGroup
+                  defaultValue={value as string}
+                  // value={}
+                  onChange={(data) => {
+                    update(item, data);
+                  }}
+                >
+                  <For each={item.dataSource}>
+                    {(data) => (
+                      <RadioGroupItem value={data.key}>
+                        <Label>{data.text}</Label>
+                      </RadioGroupItem>
+                    )}
+                  </For>
+                </RadioGroup>
+              </>
+            );
           }
-        </For>
-      </div> 
+          return <>{item.text}</>;
+        })}
+      </div>
     </Modal>
   )
 }

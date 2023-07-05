@@ -8,19 +8,28 @@ html,
 body {
   margin: 0 !important;
 }
-:root {
-  --background-color: #191925;
+
+.bg-background {
+  background-color: #191925;
+}
+
+.bg-card {
+  background-color: #232333;
+}
+
+.text-foreground {
+  color: #6f6e84;
 }
 
 .klinecharts-pro {
-  --klinecharts-pro-primary-color: #1677ff;
+  --klinecharts-pro-primary-color: white;
   --klinecharts-pro-hover-background-color: rgba(22, 119, 255, 0.15);
   --klinecharts-pro-background-color: #ffffff;
   --klinecharts-pro-popover-background-color: #ffffff;
   --klinecharts-pro-text-color: #051441;
   --klinecharts-pro-text-second-color: #76808f;
   --klinecharts-pro-border-color: #ebedf1;
-  --klinecharts-pro-selected-color: rgba(22, 119, 255, 0.15);
+  --klinecharts-pro-selected-color: #6f6e84;
 }
 
 .klinecharts-pro[data-theme='dark'] {

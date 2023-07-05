@@ -12,13 +12,14 @@
  * limitations under the License.
  */
 
-import { Component, createSignal, createMemo } from 'solid-js';
-
+import { Component, createMemo, createSignal } from 'solid-js';
 import { Modal, Select } from '../../components';
-import type { SelectDataSourceItem } from '../../components';
-import i18n from '../../i18n';
 
+import { Checkbox } from '../../components/ui/checkbox';
+import { Label } from '../../components/ui/label';
+import type { SelectDataSourceItem } from '../../components';
 import { createTimezoneSelectOptions } from './data';
+import i18n from '../../i18n';
 
 export interface TimezoneModalProps {
   locale: string;
@@ -37,26 +38,32 @@ const TimezoneModal: Component<TimezoneModalProps> = (props) => {
   return (
     <Modal
       title={i18n('timezone', props.locale)}
-      width={320}
-      buttons={[
-        {
-          children: i18n('confirm', props.locale),
-          onClick: () => {
-            props.onConfirm(innerTimezone());
-            props.onClose();
-          },
-        },
-      ]}
       onClose={props.onClose}
     >
-      <Select
-        style={{ width: '100%', 'margin-top': '20px' }}
-        value={innerTimezone().text}
-        onSelected={(tz) => {
-          setInnerTimezone(tz as SelectDataSourceItem);
-        }}
-        dataSource={timezoneOptions()}
-      />
+      <div class="grid gap-4 py-4">
+        {timezoneOptions().map((item) => {
+          return (
+            <div
+              onClick={(_) => {
+                setInnerTimezone(item);
+                props.onConfirm(item);
+              }}
+              class="items-top flex space-x-2 mb-4 text-[#6f6e84] hover:text-white"
+            >
+              <Checkbox
+                class="text-white"
+                id={`main-${item.key}`}
+                checked={innerTimezone().key == item.key}
+              />
+              <div class="grid gap-1.5 leading-none">
+                <Label for={`main-${item.key}`} class="hover:cursor-pointer">
+                  {item.text}
+                </Label>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </Modal>
   );
 };
