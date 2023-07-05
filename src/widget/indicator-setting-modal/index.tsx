@@ -13,14 +13,11 @@
  */
 
 import { Component, createSignal } from 'solid-js'
-
-import { utils } from 'klinecharts'
-
-import { Modal, Input } from '../../components'
-
-import i18n from '../../i18n'
+import { Input, Modal } from '../../components'
 
 import data from './data'
+import i18n from '../../i18n'
+import { utils } from 'klinecharts'
 
 export interface IndicatorSettingModalProps {
   locale: string
@@ -43,7 +40,7 @@ const IndicatorSettingModal: Component<IndicatorSettingModalProps> = props => {
       width={360}
       buttons={[
         {
-          type: 'confirm',
+          type: 'submit',
           children: i18n('confirm', props.locale),
           onClick: () => {
             const config = getConfig(props.params.indicatorName)
@@ -78,13 +75,13 @@ const IndicatorSettingModal: Component<IndicatorSettingModalProps> = props => {
                     const params = utils.clone(calcParams())
                     params[i] = value
                     setCalcParams(params)
-                  }}/>
+                  }} />
               </>
             )
           })
         }
       </div>
-      
+
     </Modal>
   )
 }

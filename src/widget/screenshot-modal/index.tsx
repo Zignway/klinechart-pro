@@ -13,9 +13,7 @@
  */
 
 import { Component } from 'solid-js'
-
 import { Modal } from '../../components';
-
 import i18n from '../../i18n'
 
 export interface ScreenshotModalProps {
@@ -31,7 +29,7 @@ const ScreenshotModal: Component<ScreenshotModalProps> = props => {
       width={540}
       buttons={[
         {
-          type: 'confirm',
+          type: 'submit',
           children: i18n('save', props.locale),
           onClick: () => {
             const a = document.createElement('a')
