@@ -40,7 +40,7 @@ const IndicatorSettingModal: Component<IndicatorSettingModalProps> = props => {
       width={360}
       buttons={[
         {
-          type: 'submit',
+          type: 'confirm',
           children: i18n('confirm', props.locale),
           onClick: () => {
             const config = getConfig(props.params.indicatorName)

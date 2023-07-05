@@ -12,12 +12,9 @@
  * limitations under the License.
  */
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../components/ui/accordion';
+import { Checkbox, List, Modal } from '../../components';
 
-import { Checkbox } from '../../components/ui/checkbox';
 import { Component } from 'solid-js';
-import { Label } from '../../components/ui/label';
-import { Modal } from '../../components';
 import i18n from '../../i18n';
 
 type OnIndicatorChange = (params: {
@@ -41,8 +38,49 @@ const IndicatorModal: Component<IndicatorModalProps> = (props) => {
       title={i18n('indicator', props.locale)}
       onClose={props.onClose}
     >
-      <div class="grid gap-4 py-4">
-        <Accordion
+      <List
+        class="klinecharts-pro-indicator-modal-list">
+        <li class="title">{i18n('main_indicator', props.locale)}</li>
+        {
+          [
+            'MA', 'EMA', 'SMA', 'BOLL', 'SAR', 'BBI'
+          ].map(name => {
+            const checked = props.mainIndicators.includes(name)
+            return (
+              <li
+                class="row"
+                onClick={_ => {
+                  props.onMainIndicatorChange({ name, paneId: 'candle_pane', added: !checked })
+                }}>
+                <Checkbox checked={checked} label={i18n(name.toLowerCase(), props.locale)} />
+              </li>
+            )
+          })
+        }
+        <li class="title">{i18n('sub_indicator', props.locale)}</li>
+        {
+          [
+            'MA', 'EMA', 'VOL', 'MACD', 'BOLL', 'KDJ',
+            'RSI', 'BIAS', 'BRAR', 'CCI', 'DMI',
+            'CR', 'PSY', 'DMA', 'TRIX', 'OBV',
+            'VR', 'WR', 'MTM', 'EMV', 'SAR',
+            'SMA', 'ROC', 'PVT', 'BBI', 'AO'
+          ].map(name => {
+            const checked = name in props.subIndicators
+            return (
+              <li
+                class="row"
+                onClick={_ => {
+                  // @ts-expect-error
+                  props.onSubIndicatorChange({ name, paneId: props.subIndicators[name] ?? '', added: !checked });
+                }}>
+                <Checkbox checked={checked} label={i18n(name.toLowerCase(), props.locale)} />
+              </li>
+            )
+          })
+        }
+      </List>
+      {/* <Accordion
           multiple={true}
           defaultValue={['main_indicator', 'sub_indicator']}
           class="w-full"
@@ -139,8 +177,7 @@ const IndicatorModal: Component<IndicatorModalProps> = (props) => {
               })}
             </AccordionContent>
           </AccordionItem>
-        </Accordion>
-      </div>
+        </Accordion> */}
 
     </Modal>
   );

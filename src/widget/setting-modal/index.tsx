@@ -14,15 +14,17 @@
 
 import { Component, For, createEffect, createSignal } from 'solid-js'
 import { DeepPartial, Styles, utils } from 'klinecharts'
-import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group'
+// import { Label } from '../../components/ui/label'
+import { Modal, Select, Switch } from '../../components'
 
-import { Label } from '../../components/ui/label'
-import { Modal } from '../../components'
 import type { SelectDataSourceItem } from '../../components'
-import { Switch } from '../../components/ui/switch'
+// import { Switch } from '../../components/ui/switch'
 import { getOptions } from './data'
 import i18n from '../../i18n'
 import lodashSet from 'lodash/set'
+
+// import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group'
+
 
 export interface SettingModalProps {
   locale: string
@@ -54,18 +56,61 @@ const SettingModal: Component<SettingModalProps> = props => {
     <Modal
       title={i18n('setting', props.locale)}
       width={560}
-      // buttons={[
-      //   {
-      //     children: i18n('restore_default', props.locale),
-      //     onClick: () => {
-      //       props.onRestoreDefault(options())
-      //       props.onClose()
-      //     }
-      //   }
-      // ]}
+      buttons={[
+        {
+          children: i18n('restore_default', props.locale),
+          onClick: () => {
+            props.onRestoreDefault(options())
+            props.onClose()
+          }
+        }
+      ]}
       onClose={props.onClose}>
-      <div class="grid gap-4 py-4">
-        {options().map((item) => {
+      <div
+        class="klinecharts-pro-setting-modal-content">
+        <For each={options()}>
+          {
+            option => {
+              let component
+              const value = utils.formatValue(styles(), option.key)
+              switch (option.component) {
+                case 'select': {
+                  component = (
+                    <Select
+                      style={{ width: '120px' }}
+                      value={i18n(value as string, props.locale)}
+                      dataSource={option.dataSource}
+                      onSelected={(data) => {
+                        const newValue = (data as SelectDataSourceItem).key
+                        update(option, newValue)
+                      }} />
+                  )
+                  break
+                }
+                case 'switch': {
+                  const open = !!value
+                  component = (
+                    <Switch
+                      open={open}
+                      onChange={() => {
+                        const newValue = !open
+                        update(option, newValue)
+                      }} />
+                  )
+                  break
+                }
+              }
+              return (
+                <>
+                  <span>{option.text}</span>
+                  {component}
+                </>
+              )
+            }
+          }
+        </For>
+      </div>
+      {/* {options().map((item) => {
           const value = utils.formatValue(styles(), item.key);
           if (item.component == 'switch') {
             const open = !!value;
@@ -102,8 +147,7 @@ const SettingModal: Component<SettingModalProps> = props => {
             );
           }
           return <>{item.text}</>;
-        })}
-      </div>
+        })} */}
     </Modal>
   )
 }
