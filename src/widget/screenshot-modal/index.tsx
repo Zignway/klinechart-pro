@@ -29,7 +29,7 @@ const ScreenshotModal: Component<ScreenshotModalProps> = props => {
       width={540}
       buttons={[
         {
-          type: 'submit',
+          type: 'confirm',
           children: i18n('save', props.locale),
           onClick: () => {
             const a = document.createElement('a')

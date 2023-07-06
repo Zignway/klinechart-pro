@@ -13,7 +13,6 @@
  */
 
 import './index.less'
-import './index.css'
 
 import {
   ChartPro,

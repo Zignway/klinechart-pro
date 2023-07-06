@@ -13,10 +13,8 @@
  */
 
 import { Component, Show, createSignal, onCleanup, onMount } from 'solid-js';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../../components/ui/dropdown-menu';
 import { Period, SymbolInfo } from '../../types';
 
-import { Button } from '../../components';
 import { Timeframes } from './timeframes';
 import i18n from '../../i18n';
 
