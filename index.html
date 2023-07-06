@@ -9,50 +9,51 @@
 <script type="module">
   import * as kline from './src/index.ts';
   import { ohlc1H, ohlc1m } from './src/lib/data.ts';
-
-  let data = [],
-    rand = 10;
-
-  const getHistoryKLineData = async (symbolInfo, period, from, to) => {
-    // console.log(symbolInfo, period, from, to);
-    if (period['text'].toLowerCase() == '1h') {
-      data = ohlc1H;
-    } else {
-      data = ohlc1m;
-    }
-    return (data || []).map((data) => ({
-      timestamp: Number(data[0]),
-      open: Number(data[1]),
-      high: Number(data[2]),
-      low: Number(data[3]),
-      close: Number(data[4]),
-      turnover: Number(data[6]),
-      volume: Number(data[5]),
-    }));
-  };
-  const subscribe = async (symbolInfo, period, callback) => {
-    const lastClose = data[data.length - 1];
-    setInterval(() => {
+  let data = [];
+  let rand = 10;
+  class CustomDatafeed {
+    async getHistoryKLineData(symbolInfo, period, from, to) {
       if (period['text'].toLowerCase() == '1h') {
-        rand = Math.floor(Math.random() * 100) + 1;
+        data = ohlc1H;
       } else {
-        rand = Math.floor(Math.random() * 10) + 1;
+        data = ohlc1m;
       }
-      callback({
-        timestamp: Number(lastClose[0]),
-        open: Number(lastClose[1]),
-        high: Number(lastClose[2]),
-        low: Number(lastClose[3]),
-        close: Number(lastClose[4]) + rand,
-        turnover: Number(lastClose[6]),
-        volume: Number(lastClose[5]),
-      });
-    }, 1000);
-    // console.log(symbolInfo, period, callback);
-  };
-  const unsubscribe = async (symbolInfo, period) => {
-    // console.log(symbolInfo, period);
-  };
+      return (data || []).map((data) => ({
+        timestamp: Number(data[0]),
+        open: Number(data[1]),
+        high: Number(data[2]),
+        low: Number(data[3]),
+        close: Number(data[4]),
+        turnover: Number(data[6]),
+        volume: Number(data[5]),
+      }));
+
+    }
+
+    subscribe(symbolInfo, period, callback) {
+      const lastClose = data[data.length - 1];
+      setInterval(() => {
+        if (period['text'].toLowerCase() == '1h') {
+          rand = Math.floor(Math.random() * 100) + 1;
+        } else {
+          rand = Math.floor(Math.random() * 10) + 1;
+        }
+        callback({
+          timestamp: Number(lastClose[0]),
+          open: Number(lastClose[1]),
+          high: Number(lastClose[2]),
+          low: Number(lastClose[3]),
+          close: Number(lastClose[4]) + rand,
+          turnover: Number(lastClose[6]),
+          volume: Number(lastClose[5]),
+        });
+      }, 1000);
+    }
+
+    unsubscribe(symbol, period) {
+    }
+  }
+
   const chart = new kline.KLineChartPro({
     container: document.getElementById('container'),
     symbol: {
@@ -69,8 +70,8 @@
       { multiplier: 1, timespan: 'hour', text: '1h' },
     ],
     period: { multiplier: 1, timespan: 'hour', text: '1h' },
-    getHistoryKLineData,
-    subscribe,
-    unsubscribe,
+    datafeed: new CustomDatafeed(),
   });
+
+
 </script>

@@ -59,10 +59,10 @@ export default class KLineChartPro implements ChartPro {
           timezone={options.timezone ?? 'Asia/Bangkok'}
           mainIndicators={options.mainIndicators ?? ['MA']}
           subIndicators={options.subIndicators ?? ['VOL']}
-          // datafeed={options.datafeed}
-          getHistoryKLineData={options.getHistoryKLineData}
-          subscribe={options.subscribe}
-          unsubscribe={options.unsubscribe}
+          datafeed={options.datafeed}
+          // getHistoryKLineData={options.getHistoryKLineData}
+          // subscribe={options.subscribe}
+          // unsubscribe={options.unsubscribe}
         />
       ),
       this._container

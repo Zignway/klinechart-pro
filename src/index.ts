@@ -17,6 +17,7 @@ import './index.less'
 import {
   ChartPro,
   ChartProOptions,
+  Datafeed,
   DatafeedSubscribeCallback,
   Period,
   SymbolInfo
@@ -35,5 +36,5 @@ export {
 }
 
 export type {
-  SymbolInfo, Period, DatafeedSubscribeCallback, ChartProOptions, ChartPro
+  Datafeed, SymbolInfo, Period, DatafeedSubscribeCallback, ChartProOptions, ChartPro
 }

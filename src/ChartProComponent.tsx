@@ -357,7 +357,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
         const p = period();
         const [to] = adjustFromTo(p, timestamp!, 1);
         const [from] = adjustFromTo(p, to, 500);
-        const kLineDataList = await props.getHistoryKLineData(
+        const kLineDataList = await props.datafeed.getHistoryKLineData(
           symbol(),
           p,
           from,
@@ -442,7 +442,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
   createEffect((prev?: PrevSymbolPeriod) => {
     if (!loading) {
       if (prev) {
-        props.unsubscribe(prev.symbol, prev.period);
+        props.datafeed.unsubscribe(prev.symbol, prev.period);
       }
       const s = symbol();
       const p = period();
@@ -450,9 +450,9 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
       setLoadingVisible(true);
       const get = async () => {
         const [from, to] = adjustFromTo(p, new Date().getTime(), 500);
-        const kLineDataList = await props.getHistoryKLineData(s, p, from, to);
+        const kLineDataList = await props.datafeed.getHistoryKLineData(s, p, from, to);
         widget?.applyNewData(kLineDataList, kLineDataList.length > 0);
-        props.subscribe(s, p, (data) => {
+        props.datafeed.subscribe(s, p, (data) => {
           widget?.updateData(data);
         });
         loading = false;

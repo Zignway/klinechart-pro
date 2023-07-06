@@ -14,7 +14,7 @@ const Timeframes: Component<TimeframesProps> = props => {
   return (
     <>
       <div
-        style={{ width: '40px', height: '40px', "z-index": 99 }}>
+        style={{ width: '40px', height: '40px', "z-index": 10 }}>
         <li class="dropdown dropdown-6">
           {props.period.text}
           <ul class="dropdown_menu dropdown_menu--animated dropdown_menu-6">
