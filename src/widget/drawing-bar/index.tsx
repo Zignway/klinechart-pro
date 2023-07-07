@@ -160,7 +160,7 @@ const DrawingBar: Component<DrawingBarProps> = (props) => {
         </div>
       ))}
       <span class="split-line" />
-      <div
+      {/* <div
         class="item"
         tabIndex={0}
         onBlur={() => {
@@ -181,7 +181,7 @@ const DrawingBar: Component<DrawingBarProps> = (props) => {
         >
           <Icon name="weak_magnet" />
         </span>
-      </div>
+      </div> */}
       <div
         class="item"
         tabIndex={0}

@@ -28,7 +28,10 @@ import { load } from './i18n'
 import overlays from './extension'
 import { registerOverlay } from 'klinecharts'
 
-overlays.forEach(o => { registerOverlay(o) })
+overlays.forEach(o => {
+  // console.log(o)
+  registerOverlay(o)
+})
 
 export {
   KLineChartPro,

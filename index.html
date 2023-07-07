@@ -73,5 +73,15 @@
     datafeed: new CustomDatafeed(),
   });
 
+  setTimeout(() => {
+    chart.createPosition('testGroup', '#07bc0c', 32000, 0.001);
+    chart.createPosition('testGroup', '#07bc0c', 31500, 0.001);
+    chart.createPosition('testGroup', '#07bc0c', 31000, 0.002);
+    chart.createPosition('testGroup', '#ff0000', 30500, 0.001);
+    chart.createPosition('testGroup', '#ff0000', 30000, 0.003);
+    chart.createPosition('testGroup', '#ff0000', 29500, 0.001);
+    chart.createPosition('testGroup', '#ff0000', 29000, 0.004);
+  }, 500);
+
 
 </script>

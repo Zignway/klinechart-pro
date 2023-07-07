@@ -168,6 +168,39 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     });
   };
 
+  const createPosition = (
+    groupId: string,
+    color: string,
+    price: number,
+    text: string
+  ) => {
+    widget!.createOverlay({
+      groupId,
+      name: 'positionPrice',
+      lock: true,
+      styles: {
+        line: {
+          color,
+          size: 1
+        },
+        rectText: {
+          borderColor: color,
+          backgroundColor: color
+        }
+      },
+      extendData: {
+        text,
+        price,
+        color
+      },
+      points: [
+        {
+          value: price
+        }
+      ]
+    });
+  };
+
   const removeByGroupId = (groupId: string) => {
     widget!.removeOverlay({ groupId });
   };
@@ -191,6 +224,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     setPeriod,
     getPeriod: () => period(),
     createHorizontalLine,
+    createPosition,
     removeByGroupId
   });
 

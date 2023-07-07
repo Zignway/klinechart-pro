@@ -1,20 +1,20 @@
-import arrow from './arrow';
-
-import circle from './circle';
-import rect from './rect';
-import parallelogram from './parallelogram';
-import triangle from './triangle';
-import fibonacciCircle from './fibonacciCircle';
-import fibonacciSegment from './fibonacciSegment';
-import fibonacciSpiral from './fibonacciSpiral';
-import fibonacciSpeedResistanceFan from './fibonacciSpeedResistanceFan';
-import fibonacciExtension from './fibonacciExtension';
-import gannBox from './gannBox';
-import threeWaves from './threeWaves';
-import fiveWaves from './fiveWaves';
-import eightWaves from './eightWaves';
-import anyWaves from './anyWaves';
 import abcd from './abcd';
+import anyWaves from './anyWaves';
+import arrow from './arrow';
+import circle from './circle';
+import eightWaves from './eightWaves';
+import fibonacciCircle from './fibonacciCircle';
+import fibonacciExtension from './fibonacciExtension';
+import fibonacciSegment from './fibonacciSegment';
+import fibonacciSpeedResistanceFan from './fibonacciSpeedResistanceFan';
+import fibonacciSpiral from './fibonacciSpiral';
+import fiveWaves from './fiveWaves';
+import gannBox from './gannBox';
+import parallelogram from './parallelogram';
+import positionPrice from './positionPrice';
+import rect from './rect';
+import threeWaves from './threeWaves';
+import triangle from './triangle';
 import xabcd from './xabcd';
 
 const overlays = [
@@ -35,6 +35,7 @@ const overlays = [
   anyWaves,
   abcd,
   xabcd,
+  positionPrice,
 ];
 
 export default overlays;

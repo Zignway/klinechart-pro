@@ -60,9 +60,9 @@ export default class KLineChartPro implements ChartPro {
           mainIndicators={options.mainIndicators ?? ['MA']}
           subIndicators={options.subIndicators ?? ['VOL']}
           datafeed={options.datafeed}
-          // getHistoryKLineData={options.getHistoryKLineData}
-          // subscribe={options.subscribe}
-          // unsubscribe={options.unsubscribe}
+        // getHistoryKLineData={options.getHistoryKLineData}
+        // subscribe={options.subscribe}
+        // unsubscribe={options.unsubscribe}
         />
       ),
       this._container
@@ -125,6 +125,10 @@ export default class KLineChartPro implements ChartPro {
 
   createHorizontalLine(groupId: string, color: string, price: number): void {
     this._chartApi!.createHorizontalLine(groupId, color, price)
+  }
+
+  createPosition(groupId: string, color: string, price: number, text: string): void {
+    this._chartApi!.createPosition(groupId, color, price, text)
   }
 
   removeByGroupId(groupId: string): void {

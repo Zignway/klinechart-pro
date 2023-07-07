@@ -72,5 +72,6 @@ export interface ChartPro {
   setPeriod(period: Period): void
   getPeriod(): Period,
   createHorizontalLine(groupId: string, color: string, price: number): void,
+  createPosition(groupId: string, color: string, price: number, text: string): void,
   removeByGroupId(groupId: string): void,
 }
