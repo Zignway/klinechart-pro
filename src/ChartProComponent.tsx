@@ -503,8 +503,31 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     widget?.setStyles(t);
     const color = t === 'dark' ? '#929AA5' : '#76808F';
     widget?.setStyles({
+      candle: {
+        priceMark: {
+          high: {
+            textFamily: 'Roboto Mono',
+          },
+          low: {
+            textFamily: 'Roboto Mono',
+          },
+          last: {
+            text: {
+              family: 'Roboto Mono',
+            },
+          },
+        },
+      },
       indicator: {
+        lastValueMark: {
+          text: {
+            family: 'Roboto Mono',
+          }
+        },
         tooltip: {
+          text: {
+            family: 'Roboto Mono',
+          },
           icons: [
             {
               id: 'visible',
@@ -583,6 +606,36 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
               activeBackgroundColor: 'rgba(22, 119, 255, 0.15)'
             }
           ]
+        }
+      },
+      xAxis: {
+        tickText: {
+          family: 'Roboto Mono',
+        }
+      },
+      yAxis: {
+        tickText: {
+          family: 'Roboto Mono',
+        }
+      },
+      crosshair: {
+        horizontal: {
+          text: {
+            family: 'Roboto Mono',
+          }
+        },
+        vertical: {
+          text: {
+            family: 'Roboto Mono',
+          }
+        }
+      },
+      overlay: {
+        text: {
+          family: 'Roboto Mono',
+        },
+        rectText: {
+          family: 'Roboto Mono',
         }
       }
     });
