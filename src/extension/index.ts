@@ -10,6 +10,7 @@ import fibonacciSpeedResistanceFan from './fibonacciSpeedResistanceFan';
 import fibonacciSpiral from './fibonacciSpiral';
 import fiveWaves from './fiveWaves';
 import gannBox from './gannBox';
+import measure from './measure';
 import parallelogram from './parallelogram';
 import positionPrice from './positionPrice';
 import rect from './rect';
@@ -36,6 +37,7 @@ const overlays = [
   abcd,
   xabcd,
   positionPrice,
+  measure,
 ];
 
 export default overlays;

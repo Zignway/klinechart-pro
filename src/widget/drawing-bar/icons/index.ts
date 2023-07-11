@@ -14,51 +14,46 @@
 
 import { Component, from } from 'solid-js';
 
-import horizontalStraightLine from './horizontalStraightLine';
-import horizontalRayLine from './horizontalRayLine';
-import horizontalSegment from './horizontalSegment';
-import verticalStraightLine from './verticalStraightLine';
-import verticalRayLine from './verticalRayLine';
-import verticalSegment from './verticalSegment';
-import straightLine from './straightLine';
-import rayLine from './rayLine';
-import segment from './segment';
+import type { SelectDataSourceItem } from '../../../components';
+import abcd from './abcd';
+import anyWaves from './anyWaves';
 import arrow from './arrow';
-import priceLine from './priceLine';
-import priceChannelLine from './priceChannelLine';
-import parallelStraightLine from './parallelStraightLine';
+import circle from './circle';
+import eightWaves from './eightWaves';
+import fibonacciCircle from './fibonacciCircle';
+import fibonacciExtension from './fibonacciExtension';
 import fibonacciLine from './fibonacciLine';
 import fibonacciSegment from './fibonacciSegment';
-import fibonacciCircle from './fibonacciCircle';
-import fibonacciSpiral from './fibonacciSpiral';
 import fibonacciSpeedResistanceFan from './fibonacciSpeedResistanceFan';
-import fibonacciExtension from './fibonacciExtension';
-import gannBox from './gannBox';
-import circle from './circle';
-import triangle from './triangle';
-import rect from './rect';
-import parallelogram from './parallelogram';
-import threeWaves from './threeWaves';
+import fibonacciSpiral from './fibonacciSpiral';
 import fiveWaves from './fiveWaves';
-import eightWaves from './eightWaves';
-import anyWaves from './anyWaves';
-import abcd from './abcd';
-import xabcd from './xabcd';
-
-import weakMagnet from './weakMagnet';
-import strongMagnet from './strongMagnet';
-
-import visible from './visible';
-import invisible from './invisible';
-
-import lock from './lock';
-import unlock from './unlock';
-
-import remove from './remove';
-
-import type { SelectDataSourceItem } from '../../../components';
-
+import gannBox from './gannBox';
+import horizontalRayLine from './horizontalRayLine';
+import horizontalSegment from './horizontalSegment';
+import horizontalStraightLine from './horizontalStraightLine';
 import i18n from '../../../i18n';
+import invisible from './invisible';
+import lock from './lock';
+import measure from './measure';
+import parallelStraightLine from './parallelStraightLine';
+import parallelogram from './parallelogram';
+import priceChannelLine from './priceChannelLine';
+import priceLine from './priceLine';
+import rayLine from './rayLine';
+import rect from './rect';
+import remove from './remove';
+import segment from './segment';
+import straightLine from './straightLine';
+import strongMagnet from './strongMagnet';
+import threeWaves from './threeWaves';
+import triangle from './triangle';
+import unlock from './unlock';
+import verticalRayLine from './verticalRayLine';
+import verticalSegment from './verticalSegment';
+import verticalStraightLine from './verticalStraightLine';
+import visible from './visible';
+import weakMagnet from './weakMagnet';
+import xabcd from './xabcd';
 
 export const mapping = {
   horizontalStraightLine,
@@ -98,6 +93,7 @@ export const mapping = {
   visible,
   invisible,
   remove,
+  measure,
 };
 
 export function createSingleLineOptions(

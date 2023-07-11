@@ -49,6 +49,8 @@ const DrawingBar: Component<DrawingBarProps> = (props) => {
   const [modeIcon, setModeIcon] = createSignal('weak_magnet');
   const [mode, setMode] = createSignal('normal');
 
+  const [modeMeasureIcon, setModeMeasureIcon] = createSignal('');
+
   const [lock, setLock] = createSignal(false);
 
   const [visible, setVisible] = createSignal(true);
@@ -160,7 +162,7 @@ const DrawingBar: Component<DrawingBarProps> = (props) => {
         </div>
       ))}
       <span class="split-line" />
-      {/* <div
+      <div
         class="item"
         tabIndex={0}
         onBlur={() => {
@@ -170,18 +172,25 @@ const DrawingBar: Component<DrawingBarProps> = (props) => {
         <span
           style="width:32px;height:32px"
           onClick={() => {
-            let currentMode = modeIcon();
-            if (mode() !== 'normal') {
-              currentMode = 'normal';
-            }
-            console.log(currentMode);
-            setMode(currentMode);
-            props.onModeChange(currentMode);
+            setModeMeasureIcon(modeMeasureIcon() === 'measure' ? '' : 'measure');
+            props.onDrawingItemClick({
+              groupId: GROUP_ID,
+              name: 'measure',
+              lock: lock(),
+              mode: mode() as OverlayMode,
+            })
           }}
         >
-          <Icon name="weak_magnet" />
+          {/* <Icon name="measure" class="selected" /> */}
+          {
+            modeMeasureIcon() === 'measure' ? (
+              <Icon name="measure" class="selected" />
+            ) : (
+              <Icon name="measure" />
+            )
+          }
         </span>
-      </div> */}
+      </div>
       <div
         class="item"
         tabIndex={0}
@@ -281,6 +290,7 @@ const DrawingBar: Component<DrawingBarProps> = (props) => {
           style="width:32px;height:32px"
           onClick={() => {
             props.onRemoveClick(GROUP_ID);
+            setModeMeasureIcon('');
           }}
         >
           <Icon name="remove" />
@@ -291,159 +301,3 @@ const DrawingBar: Component<DrawingBarProps> = (props) => {
 };
 
 export default DrawingBar;
-
-// import { checkPointOnSegment } from 'klinecharts/lib/mark/graphicHelper';
-
-// export const MEASURE_GRAPHIC_MARK = {
-//   name: 'measure',
-//   totalStep: 3,
-//   checkMousePointOn: (key, type, points, mousePoint) => {
-//     return checkPointOnSegment(points[0], points[1], mousePoint);
-//   },
-//   createGraphicDataSource: (step, tpPoint, xyPoints) => {
-//     if (xyPoints.length === 2) {
-//       const startPrice = tpPoint[0].price;
-//       const endPrice = tpPoint[1].price;
-//       const priceDiff = endPrice - startPrice;
-//       const percent = priceDiff / (startPrice / 100);
-//       const numberFormatter = new Intl.NumberFormat('en-US', {
-//         maximumSignificantDigits: 2,
-//       });
-
-//       return [
-//         {
-//           type: 'arrows',
-//           dataSource: [
-//             [
-//               {
-//                 x: xyPoints[0].x + (xyPoints[1].x - xyPoints[0].x) / 2,
-//                 y: xyPoints[0].y,
-//               },
-//               {
-//                 x: xyPoints[0].x + (xyPoints[1].x - xyPoints[0].x) / 2,
-//                 y: xyPoints[1].y,
-//               },
-//             ],
-//             [
-//               {
-//                 x: xyPoints[0].x,
-//                 y: xyPoints[0].y + (xyPoints[1].y - xyPoints[0].y) / 2,
-//               },
-//               {
-//                 x: xyPoints[1].x,
-//                 y: xyPoints[0].y + (xyPoints[1].y - xyPoints[0].y) / 2,
-//               },
-//             ],
-//           ],
-//         },
-//         {
-//           type: 'area',
-//           dataSource: [
-//             [
-//               { ...xyPoints[0] },
-//               { x: xyPoints[1].x, y: xyPoints[0].y },
-//               { ...xyPoints[1] },
-//               { x: xyPoints[0].x, y: xyPoints[1].y },
-//             ],
-//           ],
-//         },
-//         {
-//           type: 'measure',
-//           dataSource: [
-//             {
-//               x: xyPoints[0].x + (xyPoints[1].x - xyPoints[0].x) / 2,
-//               y: xyPoints[1].y,
-//               text: `${numberFormatter.format(
-//                 priceDiff,
-//               )} (${numberFormatter.format(percent)}%)`,
-//             },
-//           ],
-//         },
-//       ];
-//     }
-//     return [];
-//   },
-//   drawExtend: (ctx, graphicDataSources) => {
-//     const arrowsDataSource = graphicDataSources?.[0]?.dataSource;
-//     const polygonDataSource = graphicDataSources?.[1]?.dataSource;
-//     const measureDataSource = graphicDataSources?.[2]?.dataSource;
-
-//     if (!arrowsDataSource) return;
-
-//     // fill rectangle
-//     const rectangleWidth =
-//       polygonDataSource[0][1].x - polygonDataSource[0][0].x;
-//     const rectangleHeight =
-//       polygonDataSource[0][2].y - polygonDataSource[0][0].y;
-//     const isShort = rectangleHeight > 0;
-//     ctx.fillStyle = isShort ? 'rgba(255,82,82,0.1)' : 'rgba(33,150,243,0.1)';
-//     ctx.fillRect(
-//       polygonDataSource[0][0].x,
-//       polygonDataSource[0][0].y,
-//       rectangleWidth,
-//       rectangleHeight,
-//     );
-
-//     // arrows
-//     ctx.beginPath();
-//     const minRectangleSize = 10;
-//     const strokeStyle = isShort ? 'rgba(255,82,82,1)' : 'rgba(33,150,243,1)';
-
-//     // vertical arrow
-//     ctx.strokeStyle = strokeStyle;
-//     ctx.moveTo(arrowsDataSource[0][0].x, arrowsDataSource[0][0].y);
-//     ctx.lineTo(arrowsDataSource[0][1].x, arrowsDataSource[0][1].y);
-
-//     // draw arrows if rectangle is not small
-//     if (Math.abs(rectangleHeight) > minRectangleSize) {
-//       ctx.lineTo(
-//         arrowsDataSource[0][1].x + (isShort ? -5 : 5),
-//         arrowsDataSource[0][1].y + (isShort ? -5 : 5),
-//       );
-//       ctx.moveTo(arrowsDataSource[0][1].x, arrowsDataSource[0][1].y);
-//       ctx.lineTo(
-//         arrowsDataSource[0][1].x + (isShort ? 5 : -5),
-//         arrowsDataSource[0][1].y + (isShort ? -5 : 5),
-//       );
-//     }
-//     ctx.stroke();
-
-//     // horizontal
-//     ctx.strokeStyle = strokeStyle;
-//     ctx.moveTo(arrowsDataSource[1][0].x, arrowsDataSource[1][0].y);
-//     ctx.lineTo(arrowsDataSource[1][1].x, arrowsDataSource[1][1].y);
-
-//     // draw arrows if rectangle is not small
-//     if (Math.abs(rectangleWidth) > minRectangleSize) {
-//       const isLeft = rectangleWidth < 0;
-//       ctx.lineTo(
-//         arrowsDataSource[1][1].x + (isLeft ? 5 : -5),
-//         arrowsDataSource[1][1].y + 5,
-//       );
-//       ctx.moveTo(arrowsDataSource[1][1].x, arrowsDataSource[1][1].y);
-//       ctx.lineTo(
-//         arrowsDataSource[1][1].x + (isLeft ? 5 : -5),
-//         arrowsDataSource[1][1].y - 5,
-//       );
-//     }
-//     ctx.stroke();
-
-//     // measure box
-//     ctx.fillStyle = isShort ? 'rgba(255,82,82,1)' : 'rgba(33,150,243,1)';
-//     const textSize = ctx.measureText(measureDataSource[0].text);
-//     const measureBoxX = measureDataSource[0].x - textSize.width / 2 - 10;
-//     const measureBoxY = measureDataSource[0].y + (isShort ? 10 : -40);
-//     const measureBoxWidth = textSize.width + 20;
-//     const measureBoxHeight = 30;
-//     ctx.fillRect(measureBoxX, measureBoxY, measureBoxWidth, measureBoxHeight);
-//     ctx.textAlign = 'center';
-//     ctx.fillStyle = '#fff';
-//     ctx.textBaseline = 'middle';
-//     ctx.font = ctx.font.replace(/\d+px/, '12px');
-//     ctx.fillText(
-//       measureDataSource[0].text,
-//       measureDataSource[0].x,
-//       measureBoxY + measureBoxHeight / 2,
-//     );
-//   },
-// };

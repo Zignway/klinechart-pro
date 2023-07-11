@@ -1,3 +1,4 @@
+
 /**
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,31 +13,12 @@
  * limitations under the License.
  */
 
-import './index.less'
-
-import {
-  ChartPro,
-  ChartProOptions,
-  Datafeed,
-  DatafeedSubscribeCallback,
-  Period,
-  SymbolInfo
-} from './types'
-
-import KLineChartPro from './KLineChartPro'
-import { load } from './i18n'
-import overlays from './extension'
-import { registerOverlay } from 'klinecharts'
-
-overlays.forEach(o => {
-  registerOverlay(o)
-})
-
-export {
-  KLineChartPro,
-  load as loadLocales
-}
-
-export type {
-  Datafeed, SymbolInfo, Period, DatafeedSubscribeCallback, ChartProOptions, ChartPro
-}
+export default (className: string) => (
+  <svg class={`icon-overlay ${className ?? ''}`} viewBox="0 0 28 28">
+    <path
+      d="M2 9.75a1.5 1.5 0 0 0-1.5 1.5v5.5a1.5 1.5 0 0 0 1.5 1.5h24a1.5 1.5 0 0 0 1.5-1.5v-5.5a1.5 1.5 0 0 0-1.5-1.5zm0 1h3v2.5h1v-2.5h3.25v3.9h1v-3.9h3.25v2.5h1v-2.5h3.25v3.9h1v-3.9H22v2.5h1v-2.5h3a.5.5 0 0 1 .5.5v5.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-5.5a.5.5 0 0 1 .5-.5z"
+      transform="rotate(-45 14 14)"
+    >
+    </path>
+  </svg>
+)
