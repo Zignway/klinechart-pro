@@ -132,6 +132,9 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
   );
 
   const [loadingVisible, setLoadingVisible] = createSignal(false);
+  const [isCurrentOverlayMeasure, setIsCurrentOverlayMeasure] = createSignal('');
+  const [isOverlaySelected, setIsOverlaySelected] = createSignal('');
+  const [isCurrentOverlay, setIsCurrentOverlay] = createSignal('');
 
   const [indicatorSettingModalParams, setIndicatorSettingModalParams] =
     createSignal({
@@ -449,6 +452,20 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
               setSubIndicators(newIndicators);
             }
           }
+        }
+      }
+    });
+    widget?.subscribeAction(ActionType.OnCrosshairChange, (data) => {
+      if (isCurrentOverlayMeasure() !== '') {
+        const measureInfo = widget?.getOverlayById(`${isCurrentOverlayMeasure()}`);
+        if (measureInfo?.currentStep === -1) {
+          setIsOverlaySelected('')
+        }
+      } else {
+        const info = widget?.getOverlayById(`${isCurrentOverlay()}`);
+        if (info?.currentStep === -1) {
+          setIsCurrentOverlay('')
+          setIsOverlaySelected('')
         }
       }
     });
@@ -806,9 +823,36 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
         <Show when={drawingBarVisible()}>
           <DrawingBar
             locale={props.locale}
+            isOverlaySelected={isOverlaySelected()}
             onDrawingItemClick={(overlay) => {
-              console.log(overlay);
-              widget?.createOverlay(overlay);
+              // console.log(overlay);
+              if (widget) {
+                switch (overlay.name) {
+                  case "measure":
+                    if (isCurrentOverlayMeasure() !== '' && isOverlaySelected() === 'measure') {
+                      widget.removeOverlay({ id: `${isCurrentOverlayMeasure()}` });
+                      setIsCurrentOverlayMeasure('')
+                      setIsOverlaySelected('')
+                    } else if (isCurrentOverlayMeasure() !== '' && isOverlaySelected() !== 'measure') {
+                      widget.removeOverlay({ id: `${isCurrentOverlayMeasure()}` });
+                      const res = widget.createOverlay(overlay);
+                      setIsCurrentOverlayMeasure(`${res}`);
+                      setIsOverlaySelected('measure')
+                    } else {
+                      const res = widget.createOverlay(overlay);
+                      setIsCurrentOverlayMeasure(`${res}`);
+                      setIsOverlaySelected('measure')
+                    }
+
+                    break;
+
+                  default:
+                    setIsOverlaySelected(overlay.name);
+                    const res = widget.createOverlay(overlay);
+                    setIsCurrentOverlay(`${res}`)
+                    break;
+                }
+              }
             }}
             onModeChange={(mode) => {
               widget?.overrideOverlay({ mode: mode as OverlayMode });

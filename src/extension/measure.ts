@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-import { OverlayTemplate, utils } from 'klinecharts'
+import { OverlayEvent, OverlayTemplate, utils } from 'klinecharts'
 
 import { getRotateCoordinate } from './utils'
 
@@ -108,8 +108,8 @@ const measure: OverlayTemplate = {
         ]
       }
       if (points.length === 2) {
-        const upperPrice = points[0].value
-        const lowerPrice = points[1].value
+        const upperPrice = points[1].value
+        const lowerPrice = points[0].value
         text = culuateText(upperPrice, lowerPrice, precision, thousandsSeparator)
       }
       return [

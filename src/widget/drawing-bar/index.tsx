@@ -33,6 +33,7 @@ export interface DrawingBarProps {
   onLockChange: (lock: boolean) => void;
   onVisibleChange: (visible: boolean) => void;
   onRemoveClick: (groupId: string) => void;
+  isOverlaySelected: string;
 }
 
 const GROUP_ID = 'drawing_tools';
@@ -116,7 +117,11 @@ const DrawingBar: Component<DrawingBarProps> = (props) => {
               });
             }}
           >
-            <Icon name={item.icon} />
+            {
+              item.icon === props.isOverlaySelected
+                ? <Icon name={item.icon} class='selected' />
+                : <Icon name={item.icon} />
+            }
           </span>
           <div
             class="icon-arrow"
@@ -146,6 +151,7 @@ const DrawingBar: Component<DrawingBarProps> = (props) => {
                   onClick={() => {
                     item.setter(data.key);
                     props.onDrawingItemClick({
+                      groupId: GROUP_ID,
                       name: data.key,
                       lock: lock(),
                       mode: mode() as OverlayMode,
@@ -172,7 +178,7 @@ const DrawingBar: Component<DrawingBarProps> = (props) => {
         <span
           style="width:32px;height:32px"
           onClick={() => {
-            setModeMeasureIcon(modeMeasureIcon() === 'measure' ? '' : 'measure');
+            // setModeMeasureIcon(modeMeasureIcon() === 'measure' ? '' : 'measure');
             props.onDrawingItemClick({
               groupId: GROUP_ID,
               name: 'measure',
@@ -183,7 +189,7 @@ const DrawingBar: Component<DrawingBarProps> = (props) => {
         >
           {/* <Icon name="measure" class="selected" /> */}
           {
-            modeMeasureIcon() === 'measure' ? (
+            props.isOverlaySelected === 'measure' ? (
               <Icon name="measure" class="selected" />
             ) : (
               <Icon name="measure" />

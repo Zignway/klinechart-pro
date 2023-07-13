@@ -7,6 +7,7 @@
   height: 100%;
   box-sizing: border-box;
   border-right: solid 1px var(--klinecharts-pro-border-color);
+
   .item {
     display: flex;
     flex-direction: row;
@@ -19,20 +20,26 @@
     color: var(--klinecharts-pro-text-second-color);
     fill: var(--klinecharts-pro-text-second-color);
     stroke: var(--klinecharts-pro-text-second-color);
+
     .icon-overlay {
       width: 26px;
       height: 26px;
       border-radius: 2px;
       transition: all 0.2s;
+
       &:hover {
-        background-color: var(--klinecharts-pro-hover-background-color);
+        // background-color: var(--klinecharts-pro-hover-background-color);
+        fill: var(--klinecharts-pro-primary-color);
+        stroke: var(--klinecharts-pro-primary-color);
       }
+
       &.selected {
-        background-color: var(--klinecharts-pro-selected-color)!important;
+        // background-color: var(--klinecharts-pro-selected-color)!important;
         fill: var(--klinecharts-pro-primary-color);
         stroke: var(--klinecharts-pro-primary-color);
       }
     }
+
     .icon-arrow {
       display: flex;
       flex-direction: row;
@@ -48,14 +55,17 @@
       border-top-left-radius: 2px;
       border-bottom-left-radius: 2px;
       z-index: 10;
+
       svg {
         width: 4px;
         height: 6px;
         transition: all .2s;
+
         &.rotate {
           transform: rotate(180deg);
         }
       }
+
       &:hover {
         background-color: var(--klinecharts-pro-hover-background-color);
       }
@@ -71,8 +81,10 @@
       box-shadow: 0 6px 12px 0 rgba(0, 0, 0, .3);
       min-height: auto;
       max-height: 320px;
+
       li {
         padding-left: 16px;
+
         .icon-overlay {
           &:hover {
             background-color: transparent;

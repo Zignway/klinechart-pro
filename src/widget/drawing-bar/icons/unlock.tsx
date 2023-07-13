@@ -12,8 +12,8 @@
  * limitations under the License.
  */
 
-export default () => (
-  <svg class="icon-overlay" viewBox="0 0 22 22">
+export default (className: string) => (
+  <svg class={`icon-overlay ${className ?? ''}`} viewBox="0 0 22 22">
     <defs>
       <clipPath id="master_svg0_151_620">
         <rect x="0" y="0" width="22" height="22" rx="0"/>
