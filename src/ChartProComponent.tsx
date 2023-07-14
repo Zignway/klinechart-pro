@@ -872,6 +872,11 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
           ref={widgetRef}
           class="klinecharts-pro-widget"
           data-drawing-bar-visible={drawingBarVisible()}
+          onclick={(e) => {
+            if (isCurrentOverlayMeasure() !== '' && widget && isOverlaySelected() !== 'measure') {
+              widget.removeOverlay({ id: `${isCurrentOverlayMeasure()}` });
+            }
+          }}
         />
       </div>
     </>
