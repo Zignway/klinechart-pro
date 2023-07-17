@@ -208,6 +208,10 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     widget!.removeOverlay({ groupId });
   };
 
+  const getDataList = () => {
+    return widget!.getDataList();
+  }
+
   props.ref({
     setTheme,
     getTheme: () => theme(),
@@ -228,7 +232,8 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     getPeriod: () => period(),
     createHorizontalLine,
     createPosition,
-    removeByGroupId
+    removeByGroupId,
+    getDataList,
   });
 
   const documentResize = () => {
@@ -393,7 +398,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
       const get = async () => {
         const p = period();
         const [to] = adjustFromTo(p, timestamp!, 1);
-        const [from] = adjustFromTo(p, to, 500);
+        const [from] = adjustFromTo(p, to, 200);
         const kLineDataList = await props.datafeed.getHistoryKLineData(
           symbol(),
           p,
@@ -490,7 +495,27 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     );
   });
 
+  const get = async () => {
+    try {
+      const s = symbol();
+      const p = period();
+      const [from, to] = adjustFromTo(p, new Date().getTime(), 200);
+      const kLineDataList = await props.datafeed.getHistoryKLineData(s, p, from, to, true);
+      widget?.applyNewData(kLineDataList, kLineDataList.length > 0);
+      props.datafeed.subscribe(s, p, (data) => {
+        widget?.updateData(data);
+      });
+      loading = false;
+      setLoadingVisible(false);
+    } catch (err) {
+      console.error('get error ', err);
+      loading = false;
+      setLoadingVisible(false);
+    }
+  }
+
   createEffect((prev?: PrevSymbolPeriod) => {
+    console.log('loading', loading)
     if (!loading) {
       if (prev) {
         props.datafeed.unsubscribe(prev.symbol, prev.period);
@@ -499,16 +524,6 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
       const p = period();
       loading = true;
       setLoadingVisible(true);
-      const get = async () => {
-        const [from, to] = adjustFromTo(p, new Date().getTime(), 500);
-        const kLineDataList = await props.datafeed.getHistoryKLineData(s, p, from, to);
-        widget?.applyNewData(kLineDataList, kLineDataList.length > 0);
-        props.datafeed.subscribe(s, p, (data) => {
-          widget?.updateData(data);
-        });
-        loading = false;
-        setLoadingVisible(false);
-      };
       get();
       return { symbol: s, period: p };
     }
@@ -750,7 +765,6 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
           }}
         />
       </Show>
-
       <Show when={screenshotUrl().length > 0}>
         <ScreenshotModal
           locale={props.locale}

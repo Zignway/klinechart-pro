@@ -13,7 +13,7 @@
  */
 
 import { ChartPro, ChartProOptions, Period, SymbolInfo } from './types'
-import { DeepPartial, Nullable, Styles, utils } from 'klinecharts'
+import { DeepPartial, KLineData, Nullable, Styles, utils } from 'klinecharts'
 
 import ChartProComponent from './ChartProComponent'
 import { render } from 'solid-js/web'
@@ -134,4 +134,9 @@ export default class KLineChartPro implements ChartPro {
   removeByGroupId(groupId: string): void {
     this._chartApi!.removeByGroupId(groupId)
   }
+
+  getDataList(): KLineData[] {
+    return this._chartApi!.getDataList()
+  }
+
 }

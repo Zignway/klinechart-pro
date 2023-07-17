@@ -17,12 +17,19 @@
   import { ohlc1H, ohlc1m } from './src/lib/data.ts';
   let data = [];
   let rand = 10;
+  const delay = (delayInms) => {
+    return new Promise(resolve => setTimeout(resolve, delayInms));
+  }
   class CustomDatafeed {
-    async getHistoryKLineData(symbolInfo, period, from, to) {
+    async getHistoryKLineData(symbolInfo, period, from, to, isInit) {
+      // console.log("isInit : ", isInit)
+      // await delay(1000)
       if (period['text'].toLowerCase() == '1h') {
         data = ohlc1H;
+      } else if (period['text'].toLowerCase() == '1m') {
+        data = ohlc1H;
       } else {
-        data = ohlc1m;
+        data = [];
       }
       return (data || []).map((data) => ({
         timestamp: Number(data[0]),
@@ -73,6 +80,7 @@
     },
     periods: [
       { multiplier: 1, timespan: 'minute', text: '1m' },
+      { multiplier: 1, timespan: 'minute', text: '15m' },
       { multiplier: 1, timespan: 'hour', text: '1h' },
     ],
     period: { multiplier: 1, timespan: 'hour', text: '1h' },
@@ -80,13 +88,15 @@
   });
 
   // setTimeout(() => {
-  //   chart.createPosition('testGroup', '#07bc0c', 32000, 0.001);
-  //   chart.createPosition('testGroup', '#07bc0c', 31500, 0.001);
-  //   chart.createPosition('testGroup', '#07bc0c', 31000, 0.002);
-  //   chart.createPosition('testGroup', '#ff0000', 30500, 0.001);
-  //   chart.createPosition('testGroup', '#ff0000', 30000, 0.003);
-  //   chart.createPosition('testGroup', '#ff0000', 29500, 0.001);
-  //   chart.createPosition('testGroup', '#ff0000', 29000, 0.004);
+    // console.log(chart.getDataList())
+
+    //   chart.createPosition('testGroup', '#07bc0c', 32000, 0.001);
+    //   chart.createPosition('testGroup', '#07bc0c', 31500, 0.001);
+    //   chart.createPosition('testGroup', '#07bc0c', 31000, 0.002);
+    //   chart.createPosition('testGroup', '#ff0000', 30500, 0.001);
+    //   chart.createPosition('testGroup', '#ff0000', 30000, 0.003);
+    //   chart.createPosition('testGroup', '#ff0000', 29500, 0.001);
+    //   chart.createPosition('testGroup', '#ff0000', 29000, 0.004);
   // }, 500);
 
 

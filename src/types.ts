@@ -33,7 +33,7 @@ export interface Period {
 export type DatafeedSubscribeCallback = (data: KLineData) => void
 
 export interface Datafeed {
-  getHistoryKLineData: (symbol: SymbolInfo, period: Period, from: number, to: number) => Promise<KLineData[]>,
+  getHistoryKLineData: (symbol: SymbolInfo, period: Period, from: number, to: number, isInit?: boolean) => Promise<KLineData[]>,
   subscribe: (symbol: SymbolInfo, period: Period, callback: DatafeedSubscribeCallback) => void,
   unsubscribe: (symbol: SymbolInfo, period: Period) => void,
 }
@@ -74,4 +74,5 @@ export interface ChartPro {
   createHorizontalLine(groupId: string, color: string, price: number): void,
   createPosition(groupId: string, color: string, price: number, text: string): void,
   removeByGroupId(groupId: string): void,
+  getDataList(): KLineData[],
 }
