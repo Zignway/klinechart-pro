@@ -395,10 +395,12 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     setSubIndicators(subIndicatorMap);
     widget?.loadMore((timestamp) => {
       loading = true;
+      setLoadingVisible(true);
       const get = async () => {
+        console.log('loadMore')
         const p = period();
         const [to] = adjustFromTo(p, timestamp!, 1);
-        const [from] = adjustFromTo(p, to, 200);
+        const [from] = adjustFromTo(p, to, 300);
         const kLineDataList = await props.datafeed.getHistoryKLineData(
           symbol(),
           p,
@@ -407,8 +409,13 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
         );
         widget?.applyMoreData(kLineDataList, kLineDataList.length > 0);
         loading = false;
+        setLoadingVisible(false);
       };
-      get();
+      get().catch((e) => {
+        console.error(e);
+        setLoadingVisible(false);
+        loading = false;
+      });
     });
     widget?.subscribeAction(ActionType.OnTooltipIconClick, (data) => {
       if (data.indicatorName) {
@@ -495,27 +502,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     );
   });
 
-  const get = async () => {
-    try {
-      const s = symbol();
-      const p = period();
-      const [from, to] = adjustFromTo(p, new Date().getTime(), 200);
-      const kLineDataList = await props.datafeed.getHistoryKLineData(s, p, from, to, true);
-      widget?.applyNewData(kLineDataList, kLineDataList.length > 0);
-      props.datafeed.subscribe(s, p, (data) => {
-        widget?.updateData(data);
-      });
-      loading = false;
-      setLoadingVisible(false);
-    } catch (err) {
-      console.error('get error ', err);
-      loading = false;
-      setLoadingVisible(false);
-    }
-  }
-
   createEffect((prev?: PrevSymbolPeriod) => {
-    console.log('loading', loading)
     if (!loading) {
       if (prev) {
         props.datafeed.unsubscribe(prev.symbol, prev.period);
@@ -524,7 +511,21 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
       const p = period();
       loading = true;
       setLoadingVisible(true);
-      get();
+      const get = async () => {
+        const [from, to] = adjustFromTo(p, new Date().getTime(), 300);
+        const kLineDataList = await props.datafeed.getHistoryKLineData(s, p, from, to);
+        widget?.applyNewData(kLineDataList, kLineDataList.length > 0);
+        props.datafeed.subscribe(s, p, (data) => {
+          widget?.updateData(data);
+        });
+        loading = false;
+        setLoadingVisible(false);
+      }
+      get().catch((err) => {
+        console.error('get error ', err);
+        loading = false;
+        setLoadingVisible(false);
+      });
       return { symbol: s, period: p };
     }
     return prev;

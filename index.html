@@ -23,7 +23,7 @@
   class CustomDatafeed {
     async getHistoryKLineData(symbolInfo, period, from, to, isInit) {
       // console.log("isInit : ", isInit)
-      // await delay(1000)
+      await delay(1000)
       if (period['text'].toLowerCase() == '1h') {
         data = ohlc1H;
       } else if (period['text'].toLowerCase() == '1m') {
