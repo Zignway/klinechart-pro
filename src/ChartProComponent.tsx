@@ -227,7 +227,11 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
       });
     },
     getTimezone: () => timezone().key,
-    setSymbol,
+    setSymbol: (symbol: SymbolInfo) => {
+      loading = false;
+      setLoadingVisible(true)
+      setSymbol(symbol);
+    },
     getSymbol: () => symbol(),
     setPeriod,
     getPeriod: () => period(),
@@ -398,7 +402,6 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
       loading = true;
       setLoadingMoreVisible(true);
       const get = async () => {
-        console.log('loadMore')
         const p = period();
         const [to] = adjustFromTo(p, timestamp!, 1);
         const [from] = adjustFromTo(p, to, 300);
@@ -689,8 +692,8 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
       widget?.setStyles(styles());
       setWidgetDefaultStyles(lodashClone(widget!.getStyles()));
     }
-    widget?.setLeftMinVisibleBarCount(90)
-    widget?.setRightMinVisibleBarCount(120)
+    // widget?.setLeftMinVisibleBarCount(90)
+    // widget?.setRightMinVisibleBarCount(120)
   });
 
   return (
