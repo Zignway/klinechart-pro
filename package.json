@@ -1,6 +1,6 @@
 {
   "name": "@numlemon/klinecharts-pro",
-  "version": "0.1.27",
+  "version": "0.1.29",
   "description": "Financial chart built out of the box based on KLineChart.",
   "type": "module",
   "main": "./dist/klinecharts-pro.umd.js",
@@ -28,6 +28,7 @@
   "license": "Apache-2.0",
   "private": false,
   "scripts": {
+    "deploy": "npm run build && npm publish",
     "dev": "vite --port 3000",
     "build-core": "tsc && vite build",
     "build-dts": "dts-bundle-generator --no-banner true --umd-module-name klinechartspro -o dist/index.d.ts src/index.ts",

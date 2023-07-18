@@ -46,7 +46,7 @@ import {
   SettingModal,
   TimezoneModal
 } from './widget';
-import { Loading, SelectDataSourceItem } from './components';
+import { Loading, LoadingMore, SelectDataSourceItem } from './components';
 
 import lodashClone from 'lodash/cloneDeep';
 import lodashSet from 'lodash/set';
@@ -132,6 +132,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
   );
 
   const [loadingVisible, setLoadingVisible] = createSignal(false);
+  const [loadingMoreVisible, setLoadingMoreVisible] = createSignal(false);
   const [isCurrentOverlayMeasure, setIsCurrentOverlayMeasure] = createSignal('');
   const [isOverlaySelected, setIsOverlaySelected] = createSignal('');
   const [isCurrentOverlay, setIsCurrentOverlay] = createSignal('');
@@ -395,7 +396,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     setSubIndicators(subIndicatorMap);
     widget?.loadMore((timestamp) => {
       loading = true;
-      setLoadingVisible(true);
+      setLoadingMoreVisible(true);
       const get = async () => {
         console.log('loadMore')
         const p = period();
@@ -409,11 +410,11 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
         );
         widget?.applyMoreData(kLineDataList, kLineDataList.length > 0);
         loading = false;
-        setLoadingVisible(false);
+        setLoadingMoreVisible(false);
       };
       get().catch((e) => {
         console.error(e);
-        setLoadingVisible(false);
+        setLoadingMoreVisible(false);
         loading = false;
       });
     });
@@ -518,6 +519,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
         props.datafeed.subscribe(s, p, (data) => {
           widget?.updateData(data);
         });
+        widget?.resize();
         loading = false;
         setLoadingVisible(false);
       }
@@ -687,6 +689,8 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
       widget?.setStyles(styles());
       setWidgetDefaultStyles(lodashClone(widget!.getStyles()));
     }
+    widget?.setLeftMinVisibleBarCount(90)
+    widget?.setRightMinVisibleBarCount(120)
   });
 
   return (
@@ -832,6 +836,9 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
         }}
       />
       <div class="klinecharts-pro-content">
+        <Show when={loadingMoreVisible()}>
+          <LoadingMore />
+        </Show>
         <Show when={loadingVisible()}>
           <Loading />
         </Show>

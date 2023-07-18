@@ -12,19 +12,16 @@
  * limitations under the License.
  */
 
-import Select, { SelectDataSourceItem } from './select'
+import { VoidComponent } from "solid-js";
 
-import Button from './button'
-import Checkbox from './checkbox'
-import Input from './input'
-import List from './list'
-import Loading from './loading'
-import LoadingMore from './loadingMore'
-import Modal from './modal'
-import Switch from './switch'
-
-export {
-  Button, Checkbox, List, Modal, Select, Input, Loading, Switch, LoadingMore
+const LodingMore: VoidComponent = () => {
+  return (
+    <div class="klinecharts-pro-loading-more">
+      <i class="circle1" />
+      <i class="circle2" />
+      <i class="circle3" />
+    </div>
+  )
 }
 
-export type { SelectDataSourceItem }
+export default LodingMore
