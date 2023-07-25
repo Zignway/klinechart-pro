@@ -1,6 +1,6 @@
 {
   "name": "@numlemon/klinecharts-pro",
-  "version": "0.1.35",
+  "version": "0.1.37",
   "description": "Financial chart built out of the box based on KLineChart.",
   "type": "module",
   "main": "./dist/klinecharts-pro.umd.js",
@@ -65,6 +65,6 @@
     "solid-js": "^1.6.11"
   },
   "peerDependencies": {
-    "klinecharts": ">=9.0.0"
+    "@numlemon/klinecharts": "0.1.2"
   }
 }

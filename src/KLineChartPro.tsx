@@ -13,7 +13,7 @@
  */
 
 import { ChartPro, ChartProOptions, Period, SymbolInfo } from './types'
-import { DeepPartial, KLineData, Nullable, Styles, utils } from 'klinecharts'
+import { DeepPartial, KLineData, Nullable, Styles, utils } from '@numlemon/klinecharts'
 
 import ChartProComponent from './ChartProComponent'
 import { render } from 'solid-js/web'

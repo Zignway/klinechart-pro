@@ -17,7 +17,7 @@ import { Input, Modal } from '../../components'
 
 import data from './data'
 import i18n from '../../i18n'
-import { utils } from 'klinecharts'
+import { utils } from '@numlemon/klinecharts'
 
 export interface IndicatorSettingModalProps {
   locale: string

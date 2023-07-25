@@ -26,7 +26,7 @@ import {
   dispose,
   init,
   utils
-} from 'klinecharts';
+} from '@numlemon/klinecharts';
 import { ChartPro, ChartProOptions, Period, SymbolInfo } from './types';
 import {
   Component,
@@ -518,10 +518,11 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
       const get = async () => {
         const [from, to] = adjustFromTo(p, new Date().getTime(), 300);
         const kLineDataList = await props.datafeed.getHistoryKLineData(s, p, from, to);
-        widget?.applyNewData(kLineDataList, kLineDataList.length > 0);
+        widget?.applyNewData(kLineDataList, kLineDataList.length > 0, () => widget?.setAutoEnabled(false));
         props.datafeed.subscribe(s, p, (data) => {
           widget?.updateData(data);
         });
+
         widget?.resize();
         loading = false;
         setLoadingVisible(false);
@@ -692,8 +693,6 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
       widget?.setStyles(styles());
       setWidgetDefaultStyles(lodashClone(widget!.getStyles()));
     }
-    // widget?.setLeftMinVisibleBarCount(90)
-    // widget?.setRightMinVisibleBarCount(120)
   });
 
   return (

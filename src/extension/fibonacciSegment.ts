@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-import { OverlayTemplate, LineAttrs, TextAttrs } from 'klinecharts'
+import { LineAttrs, OverlayTemplate, TextAttrs } from '@numlemon/klinecharts'
 
 const fibonacciSegment: OverlayTemplate = {
   name: 'fibonacciSegment',

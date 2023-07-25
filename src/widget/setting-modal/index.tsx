@@ -13,7 +13,7 @@
  */
 
 import { Component, For, createEffect, createSignal } from 'solid-js'
-import { DeepPartial, Styles, utils } from 'klinecharts'
+import { DeepPartial, Styles, utils } from '@numlemon/klinecharts'
 // import { Label } from '../../components/ui/label'
 import { Modal, Select, Switch } from '../../components'
 

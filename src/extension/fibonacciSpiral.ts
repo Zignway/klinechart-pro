@@ -12,9 +12,8 @@
  * limitations under the License.
  */
 
-import { OverlayTemplate, utils, registerFigure } from 'klinecharts'
-
-import { getDistance, getRotateCoordinate, getRayLine } from './utils'
+import { OverlayTemplate, registerFigure, utils } from '@numlemon/klinecharts'
+import { getDistance, getRayLine, getRotateCoordinate } from './utils'
 
 const fibonacciSpiral: OverlayTemplate = {
   name: 'fibonacciSpiral',

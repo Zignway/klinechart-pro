@@ -12,8 +12,7 @@
  * limitations under the License.
  */
 
-import { OverlayTemplate } from 'klinecharts'
-
+import { OverlayTemplate } from '@numlemon/klinecharts'
 import { getDistance } from './utils'
 
 const circle: OverlayTemplate = {

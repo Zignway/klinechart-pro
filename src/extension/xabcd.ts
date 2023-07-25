@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-import { OverlayTemplate, PolygonAttrs, LineAttrs } from 'klinecharts'
+import { LineAttrs, OverlayTemplate, PolygonAttrs } from '@numlemon/klinecharts'
 
 const xabcd: OverlayTemplate = {
   name: 'xabcd',

@@ -16,7 +16,7 @@
   import * as kline from './src/index.ts';
   import { ohlc1H, ohlc1m } from './src/lib/data.ts';
   let data = [];
-  let rand = 10;
+  let rand = 0, fix = 1000;
   const delay = (delayInms) => {
     return new Promise(resolve => setTimeout(resolve, delayInms));
   }
@@ -47,14 +47,14 @@
       const lastClose = data[data.length - 1];
       setInterval(() => {
         if (period['text'].toLowerCase() == '1h') {
-          rand = Math.floor(Math.random() * 100) + 1;
+          rand = Math.floor(Math.random() * 300) + fix;
         } else {
           rand = Math.floor(Math.random() * 10) + 1;
         }
         callback({
           timestamp: Number(lastClose[0]),
           open: Number(lastClose[1]),
-          high: Number(lastClose[2]),
+          high: Number(lastClose[2]) + rand,
           low: Number(lastClose[3]),
           close: Number(lastClose[4]) + rand,
           turnover: Number(lastClose[6]),

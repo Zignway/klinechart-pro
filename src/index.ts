@@ -26,7 +26,7 @@ import {
 import KLineChartPro from './KLineChartPro'
 import { load } from './i18n'
 import overlays from './extension'
-import { registerOverlay } from 'klinecharts'
+import { registerOverlay } from '@numlemon/klinecharts'
 
 overlays.forEach(o => {
   registerOverlay(o)

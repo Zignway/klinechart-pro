@@ -22,7 +22,7 @@ import {
   createSingleLineOptions,
   createWaveOptions,
 } from './icons';
-import { OverlayCreate, OverlayMode } from 'klinecharts';
+import { OverlayCreate, OverlayMode } from '@numlemon/klinecharts';
 
 import { List } from '../../components';
 

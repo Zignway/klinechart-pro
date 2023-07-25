@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-import { OverlayTemplate } from 'klinecharts'
+import { OverlayTemplate } from '@numlemon/klinecharts'
 
 const triangle: OverlayTemplate = {
   name: 'triangle',

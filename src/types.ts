@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-import { DeepPartial, KLineData, Styles } from 'klinecharts'
+import { DeepPartial, KLineData, Styles } from '@numlemon/klinecharts'
 
 export interface SymbolInfo {
   exchange: string

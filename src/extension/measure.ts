@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-import { OverlayEvent, OverlayTemplate, utils } from 'klinecharts'
+import { OverlayEvent, OverlayTemplate, utils } from '@numlemon/klinecharts'
 
 import { getRotateCoordinate } from './utils'
 
