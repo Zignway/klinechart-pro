@@ -136,6 +136,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
   const [isCurrentOverlayMeasure, setIsCurrentOverlayMeasure] = createSignal('');
   const [isOverlaySelected, setIsOverlaySelected] = createSignal('');
   const [isCurrentOverlay, setIsCurrentOverlay] = createSignal('');
+  const [isMobile, setIsMobile] = createSignal(false);
 
   const [indicatorSettingModalParams, setIndicatorSettingModalParams] =
     createSignal({
@@ -243,6 +244,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
 
   const documentResize = () => {
     widget?.resize();
+    checkIsMobile();
   };
 
   const adjustFromTo = (period: Period, toTimestamp: number, count: number) => {
@@ -491,6 +493,16 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     window.removeEventListener('resize', documentResize);
     dispose(widgetRef!);
   });
+
+  function checkIsMobile() {
+    try {
+      document.createEvent("TouchEvent");
+      setIsMobile(true);
+    }
+    catch (_) {
+      setIsMobile(false);
+    }
+  }
 
   createEffect(() => {
     const s = symbol();
@@ -803,6 +815,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
         />
       </Show>
       <PeriodBar
+        isMobile={isMobile()}
         locale={props.locale}
         symbol={symbol()}
         spread={drawingBarVisible()}
@@ -836,6 +849,10 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
             setScreenshotUrl(url);
           }
         }}
+        currentStyles={styles()}
+        onChangeStyle={(style) => {
+          widget?.setStyles(style);
+        }}
       />
       <div class="klinecharts-pro-content">
         <Show when={loadingMoreVisible()}>
@@ -849,7 +866,6 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
             locale={props.locale}
             isOverlaySelected={isOverlaySelected()}
             onDrawingItemClick={(overlay) => {
-              // console.log(overlay);
               if (widget) {
                 switch (overlay.name) {
                   case "measure":

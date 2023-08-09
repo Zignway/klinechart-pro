@@ -1,10 +1,17 @@
 @import (reference) '../../base.less';
 
 .@{prefix-cls}-setting-modal-content {
+  width: 100%;
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto ;
   grid-row-gap: 20px;
   margin-top: 20px;
   margin-bottom: 30px;
   align-items: center;
+  .row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }

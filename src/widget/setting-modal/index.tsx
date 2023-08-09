@@ -55,7 +55,7 @@ const SettingModal: Component<SettingModalProps> = props => {
   return (
     <Modal
       title={i18n('setting', props.locale)}
-      width={560}
+      width={400}
       buttons={[
         {
           children: i18n('restore_default', props.locale),
@@ -101,10 +101,10 @@ const SettingModal: Component<SettingModalProps> = props => {
                 }
               }
               return (
-                <>
+                <div class='row'>
                   <span>{option.text}</span>
                   {component}
-                </>
+                </div>
               )
             }
           }

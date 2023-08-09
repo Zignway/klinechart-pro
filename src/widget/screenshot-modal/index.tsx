@@ -12,7 +12,8 @@
  * limitations under the License.
  */
 
-import { Component } from 'solid-js'
+import { Component, createSignal, onCleanup, onMount } from 'solid-js'
+
 import { Modal } from '../../components';
 import i18n from '../../i18n'
 
@@ -23,10 +24,11 @@ export interface ScreenshotModalProps {
 }
 
 const ScreenshotModal: Component<ScreenshotModalProps> = props => {
+
+
   return (
     <Modal
       title={i18n('screenshot', props.locale)}
-      width={540}
       buttons={[
         {
           type: 'confirm',
@@ -42,7 +44,7 @@ const ScreenshotModal: Component<ScreenshotModalProps> = props => {
         }
       ]}
       onClose={props.onClose}>
-      <img style="width:500px;margin-top: 20px" src={props.url}/>
+      <img style={`width: 100%;height: 50%;padding-top: 20px`} src={props.url} />
     </Modal>
   )
 }

@@ -28,7 +28,9 @@
  */
 
 import Button, { ButtonProps } from '../button'
-import { JSX, ParentComponent, ParentProps } from 'solid-js'
+import { JSX, ParentComponent, ParentProps, createSignal, onCleanup, onMount } from 'solid-js'
+
+import { set } from 'lodash'
 
 export interface ModalProps extends ParentProps {
   width?: number
@@ -38,12 +40,35 @@ export interface ModalProps extends ParentProps {
 }
 
 const Modal: ParentComponent<ModalProps> = (props) => {
+  const [width, setWidth] = createSignal(window.innerWidth)
+  const [height, setHeight] = createSignal(window.innerHeight)
+
+  const documentResize = () => {
+    setWidth(window.innerWidth)
+    setHeight(window.innerHeight)
+  }
+
+  onMount(() => {
+    window.addEventListener('resize', documentResize);
+  });
+
+  onCleanup(() => {
+    window.removeEventListener('resize', documentResize);
+  });
+
   return (
     <div
       class="klinecharts-pro-modal">
       <div
+        onClick={props.onClose}
+        class='backdrop' />
+      <div
         onClick={() => props.onClose}
-        style={{ width: `${props.width ?? 400}px` }}
+        style={{
+          'max-width': `${width() * 0.9}px`,
+          'max-height': `${height() * 0.9}px`,
+          width: `${props.width ?? 400}px`,
+        }}
         class="inner">
         <div
           class="title-container">

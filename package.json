@@ -65,6 +65,6 @@
     "solid-js": "^1.6.11"
   },
   "peerDependencies": {
-    "@numlemon/klinecharts": "0.1.2"
+    "@numlemon/klinecharts": "0.1.3"
   }
 }
