@@ -13,24 +13,24 @@ export interface TimeframesProps {
 }
 
 const Timeframes: Component<TimeframesProps> = props => {
-  const [firstPeriod, setFirstPeriod] = createSignal(props.periods.slice(0, 2))
+  const [firstPeriod, setFirstPeriod] = createSignal(props.periods)
   const [secondPeriod, setSecondPeriod] = createSignal(props.periods.slice(2))
   const [isSelectDropdown, setIsSelectDropdown] = createSignal(false)
-  onMount(() => {
-    if (secondPeriod().some(e => e.text === props.period.text)) {
-      setIsSelectDropdown(true)
-      return
-    }
-    setIsSelectDropdown(false)
-  })
+  // onMount(() => {
+  //   if (secondPeriod().some(e => e.text === props.period.text)) {
+  //     setIsSelectDropdown(true)
+  //     return
+  //   }
+  //   setIsSelectDropdown(false)
+  // })
 
-  createEffect(() => {
-    if (secondPeriod().some(e => e.text === props.period.text)) {
-      setIsSelectDropdown(true)
-      return
-    }
-    setIsSelectDropdown(false)
-  });
+  // createEffect(() => {
+  //   if (secondPeriod().some(e => e.text === props.period.text)) {
+  //     setIsSelectDropdown(true)
+  //     return
+  //   }
+  //   setIsSelectDropdown(false)
+  // });
 
   return (
     <>
@@ -49,7 +49,7 @@ const Timeframes: Component<TimeframesProps> = props => {
           }
         </For>
       </div>
-      {
+      {/* {
         secondPeriod().length > 0 && <div class="dropdown">
           <div class={`btn-dropdown-tigger ${isSelectDropdown() ? 'btn-dropdown-active' : ''}`}>
             {
@@ -82,7 +82,7 @@ const Timeframes: Component<TimeframesProps> = props => {
             </div>
           </div>
         </div>
-      }
+      } */}
       <div class="border-right" />
     </>
 
