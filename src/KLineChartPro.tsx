@@ -60,6 +60,7 @@ export default class KLineChartPro implements ChartPro {
           mainIndicators={options.mainIndicators ?? ['MA']}
           subIndicators={options.subIndicators ?? ['VOL']}
           datafeed={options.datafeed}
+          isMobile={options.isMobile ?? false}
         // getHistoryKLineData={options.getHistoryKLineData}
         // subscribe={options.subscribe}
         // unsubscribe={options.unsubscribe}

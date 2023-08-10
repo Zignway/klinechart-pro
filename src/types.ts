@@ -52,6 +52,7 @@ export interface ChartProOptions {
   mainIndicators?: string[]
   subIndicators?: string[]
   datafeed: Datafeed,
+  isMobile?: boolean,
   // getHistoryKLineData: (symbol: SymbolInfo, period: Period, from: number, to: number) => Promise<KLineData[]>,
   // subscribe: (symbol: SymbolInfo, period: Period, callback: DatafeedSubscribeCallback) => void,
   // unsubscribe: (symbol: SymbolInfo, period: Period) => void,
