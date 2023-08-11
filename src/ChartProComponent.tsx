@@ -837,7 +837,11 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
             widget?.resize();
           } catch (e) { }
         }}
-        onPeriodChange={setPeriod}
+        onPeriodChange={(period) => {
+          if (loading == false && loadingMoreVisible() == false && loadingVisible() == false) {
+            setPeriod(period)
+          }
+        }}
         onIndicatorClick={() => {
           setIndicatorModalVisible((visible) => !visible);
         }}
