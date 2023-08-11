@@ -702,11 +702,12 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     }
   });
 
-  createEffect(() => {
-    if (widget) {
-      setIsAutoEnabled(widget.isAutoEnabled());
-    }
-  })
+  // createEffect(() => {
+  //   console.log('isAutoEnabled', isAutoEnabled())
+  //   if (widget) {
+  //     setIsAutoEnabled(widget.isAutoEnabled());
+  //   }
+  // })
 
   return (
     <>
@@ -824,6 +825,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
         )
       }
       <PeriodBar
+        isMobile={props.isMobile}
         locale={props.locale}
         symbol={symbol()}
         spread={drawingBarVisible()}

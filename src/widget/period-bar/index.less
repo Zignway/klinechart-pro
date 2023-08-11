@@ -32,20 +32,24 @@
     }
   }
   .content-tools {
+    border-top: solid 1px var(--klinecharts-pro-border-color);
     width: 100%;
     height: @period-bar-height;
+    position: relative;
     display: flex;
     justify-content: space-between;
-    .primary-color {
-      fill: var(--klinecharts-pro-primary-color);
-      color: var(--klinecharts-pro-primary-color);
-    }
     .content-tools-left {
       display: flex;
+      overflow-x: auto;
+      // overflow-y: hidden;
     }
     .content-tools-right {
-      overflow-x: auto;
-      overflow-y: hidden;
+      // overflow: hidden;
+      // z-index: 1;
+      position: absolute;
+      height: 100%;
+      right: 0;
+      top: 0;
       display: flex;
       .border-left {
         border-left: solid 1px var(--klinecharts-pro-border-color);
@@ -190,7 +194,7 @@
 }
 
 .btn-content {
-  overflow-x: auto;
+  // overflow-x: auto;
   display: flex;
   // display: grid;
   // grid-template-columns: auto auto auto;
