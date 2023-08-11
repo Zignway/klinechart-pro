@@ -107,6 +107,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
   const [theme, setTheme] = createSignal(props.theme);
   const [styles, setStyles] = createSignal(props.styles);
   const [locale, setLocale] = createSignal(props.locale);
+  const [isAutoEnabled, setIsAutoEnabled] = createSignal(true);
 
   const [symbol, setSymbol] = createSignal(props.symbol);
   const [period, setPeriod] = createSignal(props.period);
@@ -523,6 +524,7 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
         widget?.applyNewData(kLineDataList, kLineDataList.length > 0, () => {
           if (!props.isMobile) {
             widget!.setAutoEnabled(false)
+            setIsAutoEnabled(false)
           }
           widget?.resize();
         });
@@ -700,6 +702,12 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     }
   });
 
+  createEffect(() => {
+    if (widget) {
+      setIsAutoEnabled(widget.isAutoEnabled());
+    }
+  })
+
   return (
     <>
       <i class="icon-close klinecharts-pro-load-icon" />
@@ -854,9 +862,12 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
           widget?.setStyles(style);
         }}
         onChangeAutoEnabled={() => {
-          widget?.setAutoEnabled(!widget.isAutoEnabled());
+          if (widget) {
+            setIsAutoEnabled(!widget.isAutoEnabled());
+            widget.setAutoEnabled(!widget.isAutoEnabled());
+          }
         }}
-        isAutoEnabled={widget!.isAutoEnabled()}
+        isAutoEnabled={isAutoEnabled()}
       />
       <div class="klinecharts-pro-content">
         <Show when={loadingMoreVisible()}>
