@@ -521,16 +521,14 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
         const [from, to] = adjustFromTo(p, 1688169600000, 300);
         const kLineDataList = await props.datafeed.getHistoryKLineData(s, p, from, to);
         widget?.applyNewData(kLineDataList, kLineDataList.length > 0, () => {
-          widget?.setAutoEnabled(false)
+          if (!props.isMobile) {
+            widget!.setAutoEnabled(false)
+          }
           widget?.resize();
         });
         props.datafeed.subscribe(s, p, (data) => {
           widget?.updateData(data);
         });
-        setTimeout(() => {
-          widget?.resize();
-        }, 300);
-        widget?.resize();
         loading = false;
         setLoadingVisible(false);
       }
@@ -702,192 +700,6 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
     }
   });
 
-  if (props.isMobile) {
-    return (
-      <>
-        <i class="icon-close klinecharts-pro-load-icon" />
-        <Show when={indicatorModalVisible()}>
-          <IndicatorModal
-            onClose={() => { setIndicatorModalVisible(false) }}
-            locale={props.locale}
-            mainIndicators={mainIndicators()}
-            subIndicators={subIndicators()}
-            // isOpen={indicatorModalVisible()}
-            // setIsOpen={setIndicatorModalVisible}
-            onMainIndicatorChange={(data) => {
-              const newMainIndicators = [...mainIndicators()];
-              if (data.added) {
-                createIndicator(widget, data.name, true, { id: 'candle_pane' });
-                newMainIndicators.push(data.name);
-              } else {
-                widget?.removeIndicator('candle_pane', data.name);
-                newMainIndicators.splice(newMainIndicators.indexOf(data.name), 1);
-              }
-              setMainIndicators(newMainIndicators);
-            }}
-            onSubIndicatorChange={(data) => {
-              const newSubIndicators = { ...subIndicators() };
-              if (data.added) {
-                const paneId = createIndicator(widget, data.name);
-                if (paneId) {
-                  // @ts-expect-error
-                  newSubIndicators[data.name] = paneId;
-                }
-              } else {
-                if (data.paneId) {
-                  widget?.removeIndicator(data.paneId, data.name);
-                  // @ts-expect-error
-                  delete newSubIndicators[data.name];
-                }
-              }
-              setSubIndicators(newSubIndicators);
-            }}
-          />
-        </Show>
-        <Show when={timezoneModalVisible()}>
-          <TimezoneModal
-            locale={props.locale}
-            timezone={timezone()}
-            onClose={() => { setTimezoneModalVisible(false) }}
-            // isOpen={timezoneModalVisible()}
-            // setIsOpen={() => {
-            //   setTimezoneModalVisible(false);
-            // }}
-            onConfirm={setTimezone}
-          />
-        </Show>
-        <Show when={settingModalVisible()}>
-          <SettingModal
-            locale={props.locale}
-            currentStyles={utils.clone(widget!.getStyles())}
-            // isOpen={settingModalVisible()}
-            // setIsOpen={setSettingModalVisible}
-            onClose={() => { setSettingModalVisible(false) }}
-            onChange={(style) => {
-              widget?.setStyles(style);
-            }}
-            onRestoreDefault={(options: SelectDataSourceItem[]) => {
-              const style = {};
-              options.forEach((option) => {
-                const key = option.key;
-                lodashSet(
-                  style,
-                  key,
-                  utils.formatValue(widgetDefaultStyles(), key)
-                );
-              });
-              widget?.setStyles(style);
-            }}
-          />
-        </Show>
-        <PeriodBar
-          isMobile={props.isMobile}
-          locale={props.locale}
-          symbol={symbol()}
-          spread={drawingBarVisible()}
-          period={period()}
-          periods={props.periods}
-          onMenuClick={async () => {
-            try {
-              await startTransition(() =>
-                setDrawingBarVisible(!drawingBarVisible())
-              );
-              widget?.resize();
-            } catch (e) { }
-          }}
-          onPeriodChange={setPeriod}
-          onIndicatorClick={() => {
-            setIndicatorModalVisible((visible) => !visible);
-          }}
-          onTimezoneClick={() => {
-            setTimezoneModalVisible((visible) => !visible);
-          }}
-          onSettingClick={() => {
-            setSettingModalVisible((visible) => !visible);
-          }}
-          onScreenshotClick={() => {
-            if (widget) {
-              const url = widget.getConvertPictureUrl(
-                true,
-                'jpeg',
-                props.theme === 'dark' ? '#151517' : '#ffffff'
-              );
-              setScreenshotUrl(url);
-            }
-          }}
-          currentStyles={styles()}
-          onChangeStyle={(style) => {
-            widget?.setStyles(style);
-          }}
-        />
-        <div class="klinecharts-pro-content">
-          <Show when={loadingMoreVisible()}>
-            <LoadingMore />
-          </Show>
-          <Show when={loadingVisible()}>
-            <Loading />
-          </Show>
-          <Show when={drawingBarVisible()}>
-            <DrawingBar
-              locale={props.locale}
-              isOverlaySelected={isOverlaySelected()}
-              onDrawingItemClick={(overlay) => {
-                if (widget) {
-                  switch (overlay.name) {
-                    case "measure":
-                      if (isCurrentOverlayMeasure() !== '' && isOverlaySelected() === 'measure') {
-                        widget.removeOverlay({ id: `${isCurrentOverlayMeasure()}` });
-                        setIsCurrentOverlayMeasure('')
-                        setIsOverlaySelected('')
-                      } else if (isCurrentOverlayMeasure() !== '' && isOverlaySelected() !== 'measure') {
-                        widget.removeOverlay({ id: `${isCurrentOverlayMeasure()}` });
-                        const res = widget.createOverlay(overlay);
-                        setIsCurrentOverlayMeasure(`${res}`);
-                        setIsOverlaySelected('measure')
-                      } else {
-                        const res = widget.createOverlay(overlay);
-                        setIsCurrentOverlayMeasure(`${res}`);
-                        setIsOverlaySelected('measure')
-                      }
-                      break;
-
-                    default:
-                      setIsOverlaySelected(overlay.name);
-                      const res = widget.createOverlay(overlay);
-                      setIsCurrentOverlay(`${res}`)
-                      break;
-                  }
-                }
-              }}
-              onModeChange={(mode) => {
-                widget?.overrideOverlay({ mode: mode as OverlayMode });
-              }}
-              onLockChange={(lock) => {
-                widget?.overrideOverlay({ lock });
-              }}
-              onVisibleChange={(visible) => {
-                widget?.overrideOverlay({ visible });
-              }}
-              onRemoveClick={(groupId) => {
-                widget?.removeOverlay({ groupId });
-              }}
-            />
-          </Show>
-          <div
-            ref={widgetRef}
-            class="klinecharts-pro-widget"
-            data-drawing-bar-visible={drawingBarVisible()}
-            onclick={(e) => {
-              if (isCurrentOverlayMeasure() !== '' && widget && isOverlaySelected() !== 'measure') {
-                widget.removeOverlay({ id: `${isCurrentOverlayMeasure()}` });
-              }
-            }}
-          />
-        </div>
-      </>
-    );
-  }
-
   return (
     <>
       <i class="icon-close klinecharts-pro-load-icon" />
@@ -965,36 +777,44 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
           }}
         />
       </Show>
-      <Show when={screenshotUrl().length > 0}>
-        <ScreenshotModal
-          locale={props.locale}
-          url={screenshotUrl()}
-          onClose={() => {
-            setScreenshotUrl('');
-          }}
-        />
-      </Show>
-      <Show when={indicatorSettingModalParams().visible}>
-        <IndicatorSettingModal
-          locale={props.locale}
-          params={indicatorSettingModalParams()}
-          onClose={() => {
-            setIndicatorSettingModalParams({
-              visible: false,
-              indicatorName: '',
-              paneId: '',
-              calcParams: []
-            });
-          }}
-          onConfirm={(params) => {
-            const modalParams = indicatorSettingModalParams();
-            widget?.overrideIndicator(
-              { name: modalParams.indicatorName, calcParams: params },
-              modalParams.paneId
-            );
-          }}
-        />
-      </Show>
+      {
+        !props.isMobile && (
+          <Show when={screenshotUrl().length > 0}>
+            <ScreenshotModal
+              locale={props.locale}
+              url={screenshotUrl()}
+              onClose={() => {
+                setScreenshotUrl('');
+              }}
+            />
+          </Show>
+        )
+      }
+      {
+        !props.isMobile && (
+          <Show when={indicatorSettingModalParams().visible}>
+            <IndicatorSettingModal
+              locale={props.locale}
+              params={indicatorSettingModalParams()}
+              onClose={() => {
+                setIndicatorSettingModalParams({
+                  visible: false,
+                  indicatorName: '',
+                  paneId: '',
+                  calcParams: []
+                });
+              }}
+              onConfirm={(params) => {
+                const modalParams = indicatorSettingModalParams();
+                widget?.overrideIndicator(
+                  { name: modalParams.indicatorName, calcParams: params },
+                  modalParams.paneId
+                );
+              }}
+            />
+          </Show>
+        )
+      }
       <PeriodBar
         locale={props.locale}
         symbol={symbol()}
@@ -1033,6 +853,10 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
         onChangeStyle={(style) => {
           widget?.setStyles(style);
         }}
+        onChangeAutoEnabled={() => {
+          widget?.setAutoEnabled(!widget.isAutoEnabled());
+        }}
+        isAutoEnabled={widget!.isAutoEnabled()}
       />
       <div class="klinecharts-pro-content">
         <Show when={loadingMoreVisible()}>

@@ -95,7 +95,7 @@ const Candles: Component<TimeframesProps> = props => {
 
   return (
     <>
-      <div class="condles-content">
+      <div class="candles-content">
         <For each={candles}>
           {
             data => {

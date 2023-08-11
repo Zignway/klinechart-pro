@@ -36,7 +36,10 @@
     height: @period-bar-height;
     display: flex;
     justify-content: space-between;
-
+    .primary-color {
+      fill: var(--klinecharts-pro-primary-color);
+      color: var(--klinecharts-pro-primary-color);
+    }
     .content-tools-left {
       display: flex;
     }
@@ -166,7 +169,7 @@
   }
 }
 
-.condles-content {
+.candles-content {
   display: grid;
   grid-template-columns: auto auto auto auto;
   // justify-content: center;
