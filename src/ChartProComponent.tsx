@@ -522,10 +522,10 @@ const ChartProComponent: Component<ChartProComponentProps> = (props) => {
         const [from, to] = adjustFromTo(p, 1688169600000, 300);
         const kLineDataList = await props.datafeed.getHistoryKLineData(s, p, from, to);
         widget?.applyNewData(kLineDataList, kLineDataList.length > 0, () => {
-          if (!props.isMobile) {
-            widget!.setAutoEnabled(false)
-            setIsAutoEnabled(false)
-          }
+          // if (!props.isMobile) {
+          //   widget!.setAutoEnabled(false)
+          //   setIsAutoEnabled(false)
+          // }
           widget?.resize();
         });
         props.datafeed.subscribe(s, p, (data) => {
