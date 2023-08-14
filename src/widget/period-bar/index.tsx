@@ -82,7 +82,9 @@ const PeriodBar: Component<PeriodBarProps> = (props) => {
         </svg>
       </div>
       <div class='content-tools'>
-        <div class='content-tools-left' style={{ 'width': props.isMobile ? 'calc(100% - 180px)' : 'calc(100% - 260px)' }}>
+        <div class='content-tools-left'
+          style={{ 'width': props.isMobile ? 'calc(100vw - 205px)' : 'calc(100vw - 285px)' }}
+        >
           <Timeframes
             period={props.period}
             periods={props.periods}

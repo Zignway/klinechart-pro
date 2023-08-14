@@ -35,21 +35,26 @@
     border-top: solid 1px var(--klinecharts-pro-border-color);
     width: 100%;
     height: @period-bar-height;
-    position: relative;
+    // position: relative;
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     .content-tools-left {
+      // position: absolute;
+      // right: 40;
+      // top: 160;
       display: flex;
       overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
       // overflow-y: hidden;
     }
     .content-tools-right {
       // overflow: hidden;
       // z-index: 1;
       position: absolute;
-      height: 100%;
       right: 0;
       top: 0;
+      height: 40px;
       display: flex;
       .border-left {
         border-left: solid 1px var(--klinecharts-pro-border-color);
